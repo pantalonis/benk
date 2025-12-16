@@ -16,6 +16,8 @@ struct CalendarView: View {
     
     @State private var showingDayDetail = false
     
+    var autoOpenToday: Bool = false
+    
     var body: some View {
         ZStack {
             ThemedBackground(theme: themeService.currentTheme)
@@ -42,6 +44,15 @@ struct CalendarView: View {
             .presentationDetents([.fraction(0.99)])
             .presentationDragIndicator(.hidden)
             .presentationBackground(.clear)
+        }
+        .onAppear {
+            if autoOpenToday {
+                // Slight delay to ensure view is ready
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    viewModel.goToToday()
+                    showingDayDetail = true
+                }
+            }
         }
     }
     

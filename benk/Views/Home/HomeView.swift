@@ -288,7 +288,7 @@ struct HomeView: View {
                         // Horizontal Widget Stack with Drag Reordering
                         HorizontalWidgetReorderView(
                             widgetOrder: $localWidgetOrder,
-                            widgetCount: 5,
+                            widgetCount: 6,
                             visibleWidgetIndex: $visibleWidgetIndex,
                             onOrderChanged: {
                                 // Persist widget order to UserProfile
@@ -395,12 +395,12 @@ struct HomeView: View {
             // Load saved widget order (now includes 5 widgets)
             // If user has old order with only 3 widgets, add the new ones
             if userProfile.widgetOrder.isEmpty {
-                localWidgetOrder = [0, 1, 2, 3, 4]
-            } else if userProfile.widgetOrder.count < 5 {
+                localWidgetOrder = [0, 1, 2, 3, 4, 5]
+            } else if userProfile.widgetOrder.count < 6 {
                 // Existing user with old order - add missing widgets
                 var updatedOrder = userProfile.widgetOrder
                 let existingWidgets = Set(updatedOrder)
-                for widget in 0..<5 {
+                for widget in 0..<6 {
                     if !existingWidgets.contains(widget) {
                         updatedOrder.append(widget)
                     }
@@ -494,6 +494,12 @@ struct HomeView: View {
         case 4:
             // Page 5: Upcoming Assignments
             AssignmentReminderWidget(isVisible: isVisible)
+                .frame(height: 180)
+                .padding(.horizontal, 16)
+            
+        case 5:
+            // Page 6: Current & Next Event
+            CurrentNextEventWidget(isVisible: isVisible)
                 .frame(height: 180)
                 .padding(.horizontal, 16)
             
