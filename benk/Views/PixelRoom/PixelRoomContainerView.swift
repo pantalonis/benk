@@ -52,6 +52,26 @@ struct PixelRoomContainerView: View {
             // Main Content Area (full width)
             contentView
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 5)
+                        .onChanged { _ in
+                            if isTabBarVisible {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    isTabBarVisible = false
+                                }
+                            }
+                        }
+                )
+                .simultaneousGesture(
+                    TapGesture()
+                        .onEnded {
+                            if isTabBarVisible {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    isTabBarVisible = false
+                                }
+                            }
+                        }
+                )
             
             // Floating elements overlay
             VStack {

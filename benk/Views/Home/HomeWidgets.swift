@@ -13,6 +13,15 @@ enum WidgetState {
     static var showXPLeft = false
 }
 
+// Helper for dynamic font sizing
+private func getDynamicFontSize(text: String) -> CGFloat {
+    let length = text.count
+    if length <= 2 { return 32 }
+    else if length == 3 { return 28 }
+    else if length == 4 { return 24 }
+    else { return 20 }
+}
+
 struct DailyGoalWidget: View {
     let dayMinutes: Int
     let goalMinutes: Int
@@ -94,8 +103,9 @@ struct DailyGoalWidget: View {
                         VStack(spacing: 0) {
                             if displayShowHoursLeft {
                                 // Show hours left
-                                Text(String(format: "%.1f", hoursLeft))
-                                    .font(.system(size: 22, weight: .bold, design: .rounded))
+                                let text = String(format: "%.1f", hoursLeft)
+                                Text(text)
+                                    .font(.system(size: getDynamicFontSize(text: text), weight: .bold, design: .rounded))
                                     .foregroundColor(isGoalReached ? .green : themeService.currentTheme.text)
                                 
                                 Text(isGoalReached ? "Goal Reached!" : "Hours Left")
@@ -104,8 +114,9 @@ struct DailyGoalWidget: View {
                             } else {
                                 // Show studied/goal hours
                                 HStack(alignment: .lastTextBaseline, spacing: 2) {
-                                    Text(String(format: "%.1f", studiedHours))
-                                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    let text = String(format: "%.1f", studiedHours)
+                                    Text(text)
+                                        .font(.system(size: getDynamicFontSize(text: text), weight: .bold, design: .rounded))
                                     Text("/")
                                         .font(.system(size: 12, weight: .bold))
                                     Text(String(format: "%.1f", goalHours))
@@ -253,8 +264,9 @@ struct XPLevelWidget: View {
                         VStack(spacing: 0) {
                             if displayShowXPLeft {
                                 // Show XP left to next level
-                                Text("\(xpLeft)")
-                                    .font(.system(size: 22, weight: .bold, design: .rounded))
+                                let text = "\(xpLeft)"
+                                Text(text)
+                                    .font(.system(size: getDynamicFontSize(text: text), weight: .bold, design: .rounded))
                                     .foregroundColor(themeService.currentTheme.text)
                                 
                                 Text("XP to Lvl \(currentLevel + 1)")
@@ -263,8 +275,9 @@ struct XPLevelWidget: View {
                             } else {
                                 // Show XP in level / XP needed for level
                                 HStack(alignment: .lastTextBaseline, spacing: 2) {
-                                    Text("\(xpInLevel)")
-                                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    let text = "\(xpInLevel)"
+                                    Text(text)
+                                        .font(.system(size: getDynamicFontSize(text: text), weight: .bold, design: .rounded))
                                         .foregroundColor(levelColor)
                                     Text("/")
                                         .font(.system(size: 12, weight: .bold))
