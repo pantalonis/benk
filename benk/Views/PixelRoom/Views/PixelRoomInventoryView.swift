@@ -30,7 +30,7 @@ struct PixelRoomInventoryView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                         // Spacer for top headers
-                        Color.clear.frame(height: 140) // Adjust based on header height
+                        Color.clear.frame(height: 160) // Adjust based on header height
                         
                         if selectedCategory == .furniture {
                             let groupedItems = groupItemsBySubCategory(getItemsForCategory())

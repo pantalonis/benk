@@ -13,6 +13,10 @@ struct BundlesView: View {
     @EnvironmentObject var currencyManager: CurrencyManager
     @Environment(\.dismiss) var dismiss
     
+    // Alert state managed at view level for centered display
+    @State private var showPurchaseAlert = false
+    @State private var purchaseMessage = ""
+    
     var body: some View {
         ZStack {
             themeManager.backgroundColor
@@ -58,13 +62,18 @@ struct BundlesView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(shopManager.availableBundles.filter { $0.isActive }) { bundle in
-                            BundleCard(bundle: bundle)
+                            BundleCard(
+                                bundle: bundle,
+                                showPurchaseAlert: $showPurchaseAlert,
+                                purchaseMessage: $purchaseMessage
+                            )
                         }
                     }
                     .padding()
                 }
             }
         }
+        .pixelAlert(isPresented: $showPurchaseAlert, title: "BUNDLE", message: purchaseMessage)
     }
 }
 

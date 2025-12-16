@@ -12,11 +12,19 @@ import SwiftUI
 struct DailyDealBanner: View {
     @StateObject private var shopManager = ShopManager.shared
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var parentTheme: ThemeService
     @EnvironmentObject var currencyManager: CurrencyManager
     @EnvironmentObject var inventoryManager: InventoryManager
     
-    @State private var showPurchaseAlert = false
-    @State private var purchaseMessage = ""
+    // Callback bindings for showing toast in parent view
+    @Binding var showPurchaseAlert: Bool
+    @Binding var purchaseMessage: String
+    
+    // Default initializer with no-op bindings for backward compatibility
+    init(showPurchaseAlert: Binding<Bool> = .constant(false), purchaseMessage: Binding<String> = .constant("")) {
+        _showPurchaseAlert = showPurchaseAlert
+        _purchaseMessage = purchaseMessage
+    }
     
 
     
@@ -31,17 +39,16 @@ struct DailyDealBanner: View {
                     dealCard(deal: deal, item: item)
                 }
                 .frame(height: 180)
-                .pixelAlert(isPresented: $showPurchaseAlert, title: "DAILY DEAL", message: purchaseMessage)
             } else {
                 // Empty state if no deal
                 VStack(spacing: 8) {
                     Image(systemName: "clock")
                         .font(.system(size: 30))
-                        .foregroundColor(themeManager.secondaryText)
+                        .foregroundColor(parentTheme.currentTheme.textSecondary)
                     Text("No Daily Deal\nCheck back later!")
                         .font(.system(size: 14, weight: .medium))
                         .multilineTextAlignment(.center)
-                        .foregroundColor(themeManager.secondaryText)
+                        .foregroundColor(parentTheme.currentTheme.textSecondary)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 180)
@@ -108,7 +115,7 @@ struct DailyDealBanner: View {
             
             Text(item.name)
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(themeManager.primaryText)
+                .foregroundColor(parentTheme.currentTheme.text)
                 .lineLimit(1)
             
             priceRow(item: item, deal: deal)
@@ -159,7 +166,7 @@ struct DailyDealBanner: View {
             
             Text("\(item.price)")
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(themeManager.secondaryText)
+                .foregroundColor(parentTheme.currentTheme.textSecondary)
                 .strikethrough()
         }
     }
@@ -212,9 +219,18 @@ struct BundleCard: View {
     @EnvironmentObject var currencyManager: CurrencyManager
     @StateObject private var shopManager = ShopManager.shared
     
-    @State private var showPurchaseAlert = false
-    @State private var purchaseMessage = ""
+    // Callback bindings for showing toast in parent view
+    @Binding var showPurchaseAlert: Bool
+    @Binding var purchaseMessage: String
+    
     @State private var showDetails = false
+    
+    // Default initializer with no-op bindings for backward compatibility
+    init(bundle: ItemBundle, showPurchaseAlert: Binding<Bool> = .constant(false), purchaseMessage: Binding<String> = .constant("")) {
+        self.bundle = bundle
+        _showPurchaseAlert = showPurchaseAlert
+        _purchaseMessage = purchaseMessage
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -328,7 +344,6 @@ struct BundleCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(bundle.isLimitedTime ? Color.orange : Color.white.opacity(0.1), lineWidth: 2)
         )
-        .pixelAlert(isPresented: $showPurchaseAlert, title: "BUNDLE", message: purchaseMessage)
     }
     
     private func purchaseBundle() {
@@ -349,6 +364,7 @@ struct BundleCard: View {
 
 struct BundlesWidget: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var parentTheme: ThemeService
     @Binding var showBundlesSheet: Bool
     
     var body: some View {
@@ -402,17 +418,17 @@ struct BundlesWidget: View {
                     
                     Text("Value Bundles")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(themeManager.primaryText)
+                        .foregroundColor(parentTheme.currentTheme.text)
                     
                     Text("Save up to 50% on curated sets!")
                         .font(.system(size: 13))
-                        .foregroundColor(themeManager.secondaryText)
+                        .foregroundColor(parentTheme.currentTheme.textSecondary)
                 }
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(themeManager.secondaryText.opacity(0.5))
+                    .foregroundColor(parentTheme.currentTheme.textSecondary.opacity(0.5))
             }
             .padding(20)
             .frame(height: 180)
@@ -441,13 +457,18 @@ struct BundlesWidget: View {
 
 struct StoreWidgetSlider: View {
     @Binding var showBundlesSheet: Bool
+    @Binding var showPurchaseAlert: Bool
+    @Binding var purchaseMessage: String
     @State private var currentPage = 0
     @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         VStack(spacing: 8) {
             TabView(selection: $currentPage) {
-                DailyDealBanner()
+                DailyDealBanner(
+                    showPurchaseAlert: $showPurchaseAlert,
+                    purchaseMessage: $purchaseMessage
+                )
                     .padding(.horizontal, 16)
                     .tag(0)
                 

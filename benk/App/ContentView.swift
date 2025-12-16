@@ -142,9 +142,9 @@ struct ContentView: View {
             DataController.shared.initializeDefaultBadges(context: modelContext)
         }
         
-        // Generate daily quests if needed
-        QuestService.shared.checkAndGenerateDailyQuests(context: modelContext)
-        QuestService.shared.checkAndGenerateWeeklyQuests(context: modelContext)
+        // Check and refresh quests
+        QuestStats.shared.checkResets()
+        QuestService.shared.checkRefresh()
         
         // Check all badges on app load (will queue popups for any newly earned badges)
         badgeService.checkAllBadgesOnLoad(context: modelContext)

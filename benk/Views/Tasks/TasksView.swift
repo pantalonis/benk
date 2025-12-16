@@ -378,18 +378,11 @@ struct TaskRow: View {
     }
     
     private func updateQuestProgress() {
-        // Update "Complete X tasks" quests
-        let descriptor = FetchDescriptor<Quest>(
-            predicate: #Predicate<Quest> {
-                $0.type == "daily" && $0.title.contains("Task") && !$0.isClaimed
-            }
-        )
+        // Record task completion in persistent stats (survives task deletion)
+        QuestStats.shared.recordTaskCompletion()
         
-        if let quests = try? modelContext.fetch(descriptor) {
-            for quest in quests {
-                QuestService.shared.updateQuestProgress(quest.id, increment: 1, context: modelContext)
-            }
-        }
+        // Update quest progress with new stats
+        QuestService.shared.updateAllProgress()
     }
 }
 

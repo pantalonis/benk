@@ -218,7 +218,7 @@ class DataController {
         if let profiles = try? context.fetch(descriptor), let profile = profiles.first {
             profile.xp = 0
             profile.level = 1
-            CurrencyManager.shared.coins = 10000 // Reset the single coin source
+            CurrencyManager.shared.coins = 0 // Reset coins to 0 (no starter amount)
             profile.currentStreak = 0
             profile.longestStreak = 0
             profile.lastStudyDate = nil
@@ -254,11 +254,26 @@ class DataController {
         
         try? context.save()
         
+        // Reset Inventory (items and window backgrounds)
+        InventoryManager.shared.ownedItems = []
+        InventoryManager.shared.ownedWindowBackgrounds = []
+        
+        // Reset Room (placed objects, theme, window)
+        RoomManager.shared.placedObjects = []
+        RoomManager.shared.currentRoomTheme = nil
+        RoomManager.shared.currentWindowBackground = nil
+        RoomManager.shared.windowPosition = CGPoint(x: 0.5, y: 0.25)
+        
+        // Clear SaveManager saved game data
+        SaveManager.shared.resetGameData()
+        
         // Regenerate defaults
         initializeDefaultSubjects(context: context)
         initializeDefaultBadges(context: context)
-        QuestService.shared.checkAndGenerateDailyQuests(context: context)
-        QuestService.shared.checkAndGenerateWeeklyQuests(context: context)
+        
+        // Reset quest stats and refresh quests
+        QuestStats.shared.resetAllStats()
+        QuestService.shared.checkRefresh()
     }
     
     /// Seed sample study sessions for testing charts and calendar

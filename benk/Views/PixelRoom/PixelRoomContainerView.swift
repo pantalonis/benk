@@ -13,7 +13,7 @@ enum PixelRoomPage: String, CaseIterable, Identifiable {
     case room = "Room"
     case shop = "Shop"
     case inventory = "Inventory"
-    case achievements = "Rewards"
+    case quests = "Quests"
     
     var id: String { rawValue }
     
@@ -22,7 +22,7 @@ enum PixelRoomPage: String, CaseIterable, Identifiable {
         case .room: return "bed.double.fill"
         case .shop: return "cart.fill"
         case .inventory: return "shippingbox.fill"
-        case .achievements: return "trophy.fill"
+        case .quests: return "scroll.fill"
         }
     }
 }
@@ -73,14 +73,16 @@ struct PixelRoomContainerView: View {
                         }
                 )
             
-            // Floating elements overlay
-            VStack {
-                // Top bar with glass styling
-                topBar
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-                
-                Spacer()
+            // Floating elements overlay (hide for Quests page which has its own header)
+            if selectedPage != .quests {
+                VStack {
+                    // Top bar with glass styling
+                    topBar
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                    
+                    Spacer()
+                }
             }
             
             // Floating Vertical Side Tab Bar (left side) with hide/show
@@ -253,8 +255,8 @@ struct PixelRoomContainerView: View {
             PixelRoomShopView()
         case .inventory:
             PixelRoomInventoryView()
-        case .achievements:
-            PixelRoomAchievementsView()
+        case .quests:
+            QuestsView()
         }
     }
     

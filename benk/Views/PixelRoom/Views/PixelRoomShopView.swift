@@ -73,7 +73,7 @@ struct PixelRoomShopView: View {
                     Color.clear.frame(height: 180) // Adjust based on header height
                     
                     // Store Widget Slider (Daily Deal + Bundles)
-                    StoreWidgetSlider(showBundlesSheet: $showBundles)
+                    StoreWidgetSlider(showBundlesSheet: $showBundles, showPurchaseAlert: $showPurchaseAlert, purchaseMessage: $purchaseMessage)
                     
                     // Items
                     itemsGrid
@@ -391,7 +391,11 @@ struct PixelRoomShopView: View {
     
     // MARK: - Glass Item Card
     private func glassItemCard(_ item: Item) -> some View {
-        VStack(spacing: 8) {
+        let finalPrice = shopManager.getSalePrice(for: item) ?? item.price
+        let canAfford = currencyManager.canAfford(finalPrice)
+        let isOwned = inventoryManager.owns(item)
+        
+        return VStack(spacing: 8) {
             // Item image
             ZStack {
                 Image(item.imageName)
@@ -409,25 +413,57 @@ struct PixelRoomShopView: View {
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 5)
                                 .padding(.vertical, 2)
-                                .background(Color.red)
-                                .cornerRadius(4)
+                                .background(
+                                    Capsule()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [.red, .orange],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                )
                                 .padding(4)
                         }
                         Spacer()
                     }
                 }
                 
-                // OWNED badge
-                if inventoryManager.owns(item) {
-                    Color.black.opacity(0.5)
+                // OWNED badge - Liquid glass style with cyan/purple theme
+                if isOwned {
+                    Color.black.opacity(0.4)
                     
                     Text("OWNED")
-                        .font(.system(size: 12, weight: .bold))
+                        .font(.system(size: 11, weight: .bold))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.green.opacity(0.9))
-                        .cornerRadius(6)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule()
+                                .fill(.ultraThinMaterial)
+                                .overlay(
+                                    Capsule()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [.cyan.opacity(0.4), .purple.opacity(0.3)],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                )
+                                .overlay(
+                                    Capsule()
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [.cyan.opacity(0.6), .purple.opacity(0.4)],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                )
+                        )
+                        .shadow(color: .cyan.opacity(0.3), radius: 8, x: 0, y: 2)
                 }
             }
             .frame(height: 80)
@@ -461,34 +497,61 @@ struct PixelRoomShopView: View {
                 }
             }
             
-            // Buy button
+            // Buy button - Liquid glass with conditional glow
             Button(action: {
                 purchaseItem(item)
             }) {
-                Text(inventoryManager.owns(item) ? "Owned" : "Buy")
+                Text(isOwned ? "Owned" : "Buy")
                     .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(parentTheme.currentTheme.text)
+                    .foregroundColor(isOwned ? .white.opacity(0.8) : .white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
                     .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(
-                                inventoryManager.owns(item) ?
-                                Color.green.opacity(0.3) :
-                                parentTheme.currentTheme.accent.opacity(0.3)
-                            )
-                            .overlay(
+                        Group {
+                            if isOwned {
+                                // Owned: muted glass style
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(
-                                        inventoryManager.owns(item) ?
-                                        Color.green.opacity(0.5) :
-                                        parentTheme.currentTheme.accent.opacity(0.5),
-                                        lineWidth: 0.5
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.gray.opacity(0.2))
                                     )
-                            )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                                    )
+                            } else if canAfford {
+                                // Can afford: glowing green gradient
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [.green, .mint],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.white.opacity(0.4), lineWidth: 0.5)
+                                    )
+                                    .shadow(color: .green.opacity(0.5), radius: 8, x: 0, y: 2)
+                            } else {
+                                // Cannot afford: muted red/gray
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.red.opacity(0.15))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.red.opacity(0.3), lineWidth: 0.5)
+                                    )
+                            }
+                        }
                     )
             }
-            .disabled(inventoryManager.owns(item))
+            .disabled(isOwned)
         }
         .padding(12)
         .background(
@@ -511,7 +574,10 @@ struct PixelRoomShopView: View {
     
     // MARK: - Glass Window Item Card
     private func glassWindowItemCard(_ window: WindowBackground) -> some View {
-        VStack(spacing: 8) {
+        let canAfford = currencyManager.canAfford(window.price)
+        let isOwned = inventoryManager.owns(window)
+        
+        return VStack(spacing: 8) {
             Image(window.imageName)
                 .resizable()
                 .scaledToFill()
@@ -532,33 +598,61 @@ struct PixelRoomShopView: View {
                     .foregroundColor(.orange)
             }
             
+            // Buy button - Liquid glass with conditional glow
             Button(action: {
                 purchaseWindowBackground(window)
             }) {
-                Text(inventoryManager.owns(window) ? "Owned" : "Buy")
+                Text(isOwned ? "Owned" : "Buy")
                     .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(parentTheme.currentTheme.text)
+                    .foregroundColor(isOwned ? .white.opacity(0.8) : .white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
                     .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(
-                                inventoryManager.owns(window) ?
-                                Color.green.opacity(0.3) :
-                                parentTheme.currentTheme.glow.opacity(0.3)
-                            )
-                            .overlay(
+                        Group {
+                            if isOwned {
+                                // Owned: muted glass style
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(
-                                        inventoryManager.owns(window) ?
-                                        Color.green.opacity(0.5) :
-                                        parentTheme.currentTheme.glow.opacity(0.5),
-                                        lineWidth: 0.5
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.gray.opacity(0.2))
                                     )
-                            )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                                    )
+                            } else if canAfford {
+                                // Can afford: glowing green gradient
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [.green, .mint],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.white.opacity(0.4), lineWidth: 0.5)
+                                    )
+                                    .shadow(color: .green.opacity(0.5), radius: 8, x: 0, y: 2)
+                            } else {
+                                // Cannot afford: muted red/gray
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.red.opacity(0.15))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.red.opacity(0.3), lineWidth: 0.5)
+                                    )
+                            }
+                        }
                     )
             }
-            .disabled(inventoryManager.owns(window))
+            .disabled(isOwned)
         }
         .padding(12)
         .background(
