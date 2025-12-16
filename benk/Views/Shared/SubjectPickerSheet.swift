@@ -25,63 +25,8 @@ struct SubjectPickerSheet: View {
             themeService.currentTheme.background
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                // Custom Glass Header
-                HStack {
-                    Button(action: {
-                        withAnimation(.spring(response: 0.3)) {
-                            isEditMode.toggle()
-                        }
-                        HapticManager.shared.selection()
-                    }) {
-                        Text(isEditMode ? "Done" : "Edit")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(themeService.currentTheme.accent)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(.ultraThinMaterial)
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(themeService.currentTheme.accent.opacity(0.3), lineWidth: 1)
-                                    )
-                            )
-                    }
-                    
-                    Spacer()
-                    
-                    Text("Select Subject")
-                        .font(.headline)
-                        .foregroundColor(themeService.currentTheme.text)
-                    
-                    Spacer()
-                    
-                    Button(action: { dismiss() }) {
-                        Text("Cancel")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(themeService.currentTheme.text)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(.ultraThinMaterial)
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(themeService.currentTheme.text.opacity(0.1), lineWidth: 1)
-                                    )
-                            )
-                    }
-                }
-                .padding()
-                .background(
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                        .ignoresSafeArea()
-                )
-                
+            ZStack(alignment: .top) {
+                // Background Layer (Content)
                 ScrollView {
                     VStack(spacing: 12) {
                         // Subject Cards
@@ -131,7 +76,60 @@ struct SubjectPickerSheet: View {
                         }
                     }
                     .padding(.vertical)
+                    .padding(.top, 80) // Space for transparent header
                 }
+                
+                // Header Layer (Top)
+                HStack {
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3)) {
+                            isEditMode.toggle()
+                        }
+                        HapticManager.shared.selection()
+                    }) {
+                        Text(isEditMode ? "Done" : "Edit")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(themeService.currentTheme.accent)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule()
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        Capsule()
+                                            .stroke(themeService.currentTheme.accent.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Select Subject")
+                        .font(.headline)
+                        .foregroundColor(themeService.currentTheme.text)
+                    
+                    Spacer()
+                    
+                    Button(action: { dismiss() }) {
+                        Text("Cancel")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(themeService.currentTheme.text)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule()
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        Capsule()
+                                            .stroke(themeService.currentTheme.text.opacity(0.1), lineWidth: 1)
+                                    )
+                            )
+                    }
+                }
+                .padding()
+                .background(Color.clear) // Transparent background
             }
         }
         .sheet(isPresented: $showSubjectEditor) {

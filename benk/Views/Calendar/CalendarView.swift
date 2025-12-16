@@ -20,12 +20,17 @@ struct CalendarView: View {
         ZStack {
             ThemedBackground(theme: themeService.currentTheme)
             
-            VStack(spacing: 0) {
-                // Header with custom back button
-                header
+            ZStack(alignment: .top) {
+                // Month View (main content/background layer)
+                MonthView(
+                    viewModel: viewModel,
+                    showingDayDetail: $showingDayDetail,
+                    contentTopPadding: 70 // Space for transparent header
+                )
                 
-                // Month View (main content)
-                MonthView(viewModel: viewModel, showingDayDetail: $showingDayDetail)
+                // Header with custom back button and transparent background
+                header
+                    .background(Color.clear) // Transparent
             }
         }
         .navigationBarBackButtonHidden(true)

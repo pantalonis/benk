@@ -32,13 +32,8 @@ struct AllAssignmentsScreen: View {
         ZStack {
             ThemedBackground(theme: themeService.currentTheme)
             
-            VStack(spacing: 0) {
-                // Custom Header
-                header
-                
-                // Filter Segmented Control Replacement
-                filterSection
-                
+            ZStack(alignment: .top) {
+                // Content Layer (Bottom)
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
                         if filteredAssignments.isEmpty {
@@ -48,7 +43,18 @@ struct AllAssignmentsScreen: View {
                         }
                     }
                     .padding()
+                    .padding(.top, 130) // Adjust for Header + Filter height
                 }
+                
+                // Fixed Header Layer (Top)
+                VStack(spacing: 0) {
+                    // Custom Header
+                    header
+                    
+                    // Filter Segmented Control Replacement
+                    filterSection
+                }
+                .background(Color.clear) // Transparent background
             }
         }
         .navigationBarHidden(true)

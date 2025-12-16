@@ -27,13 +27,9 @@ struct AllExamsScreen: View {
         ZStack {
             ThemedBackground(theme: themeService.currentTheme)
             
-            VStack(spacing: 0) {
-                // Custom Header
-                header
+            ZStack(alignment: .top) {
                 
-                // Sorting and Filtering Controls
-                controlsSection
-                
+                // Content Layer (Bottom)
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
                         if filteredAndSortedExams.isEmpty {
@@ -43,8 +39,19 @@ struct AllExamsScreen: View {
                         }
                     }
                     .padding()
+                    .padding(.top, 150) // Adjust for Header + Controls height
                     .padding(.bottom, 80) // Space for FAB
                 }
+                
+                // Fixed Header Layer (Top)
+                VStack(spacing: 0) {
+                    // Custom Header
+                    header
+                    
+                    // Sorting and Filtering Controls
+                    controlsSection
+                }
+                .background(Color.clear) // Transparent background
             }
             
             // Floating Add Button

@@ -11,6 +11,7 @@ import SwiftData
 struct MonthView: View {
     @ObservedObject var viewModel: CalendarViewModel
     @Binding var showingDayDetail: Bool
+    var contentTopPadding: CGFloat = 0 // New parameter
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var themeService: ThemeService
     @Query private var userProfiles: [UserProfile]
@@ -59,6 +60,7 @@ struct MonthView: View {
                         }
                     }
                 }
+                .contentMargins(.top, contentTopPadding, for: .scrollContent)
                 .onAppear {
                     // Only scroll to current month on initial appear
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -80,6 +82,12 @@ struct MonthView: View {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             proxy.scrollTo(newValue, anchor: .top)
                         }
+                    }
+                }
+                .onChange(of: viewModel.scrollToTodayTrigger) { _, _ in
+                    // Manually triggered "Today" scroll (even if month didn't change)
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        proxy.scrollTo(todayMonthAnchor, anchor: .top)
                     }
                 }
             }

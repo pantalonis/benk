@@ -307,7 +307,7 @@ struct HomeView: View {
                     
                     // Scroll indicator hint
                     VStack(spacing: 4) {
-                        Text(showRecentActivity ? "Scroll down to close" : "Scroll up for recent activity")
+                        Text(showRecentActivity ? "Pull down to close" : "Pull up for recent activity")
                             .font(.caption2)
                             .foregroundColor(themeService.currentTheme.textSecondary.opacity(0.5))
                         Image(systemName: showRecentActivity ? "chevron.down" : "chevron.up")

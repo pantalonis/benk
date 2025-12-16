@@ -18,6 +18,9 @@ class CalendarViewModel: ObservableObject {
     @Published var activeFilters: [CalendarFilter] = []
     @Published var searchResults: [CalendarSearchResult] = []
     
+    // Trigger to force scroll to today even if current month hasn't changed
+    @Published var scrollToTodayTrigger: UUID = UUID()
+    
     // Computed property: Days in current month
     var daysInMonth: [Date] {
         guard let monthStart = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: currentMonth)),
@@ -83,6 +86,9 @@ class CalendarViewModel: ObservableObject {
         // Get start of the current month
         let components = Calendar.current.dateComponents([.year, .month], from: today)
         currentMonth = Calendar.current.date(from: components) ?? today
+        
+        // Force trigger to ensure view scrolls even if month didn't change
+        scrollToTodayTrigger = UUID()
     }
     
     func selectDate(_ date: Date) {
