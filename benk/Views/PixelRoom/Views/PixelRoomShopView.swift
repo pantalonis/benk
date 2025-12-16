@@ -30,7 +30,7 @@ struct PixelRoomShopView: View {
     
     enum ShopCategory: String, CaseIterable {
         case furniture = "Furniture"
-        case decorations = "Decor"
+        case decorations = "Decorations"
         case pets = "Pets"
         case rooms = "Rooms"
         case windows = "Windows"
@@ -66,45 +66,57 @@ struct PixelRoomShopView: View {
             // Themed background with effects (snow, stars, etc.)
             ThemedBackground(theme: parentTheme.currentTheme)
             
+            // Main Content ScrollView (Behind headers)
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 16) {
+                    // Spacer for top headers
+                    Color.clear.frame(height: 180) // Adjust based on header height
+                    
+                    // Store Widget Slider (Daily Deal + Bundles)
+                    StoreWidgetSlider(showBundlesSheet: $showBundles)
+                    
+                    // Items
+                    itemsGrid
+                        .padding(.horizontal, 16)
+                }
+                .padding(.bottom, 100)
+            }
+            
+            // Floating Headers
             VStack(spacing: 0) {
                 // Top spacing for container top bar
                 Color.clear.frame(height: 60)
                 
-                // Header with action buttons
-                glassHeader
-                    .padding(.horizontal, 16) // Offset for tab bar
-                
-                // Category selector
-                glassCategoryPicker
-                    .padding(.top, 12)
-                
-                // Search bar and filters
-                glassSearchBar
-                    .padding(.horizontal, 16)
-                    .padding(.top, 10)
-                
-                // Filter options (expandable)
-                if showFilters {
-                    glassFilterSection
+                VStack(spacing: 0) {
+                    // Header with action buttons
+                    glassHeader
                         .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                }
-                
-                // Items grid
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 16) {
-                        // Daily Deal Banner
-                        DailyDealBanner()
+                    
+                    // Category selector
+                    glassCategoryPicker
+                        .padding(.top, 12)
+                    
+                    // Search bar and filters
+                    glassSearchBar
+                        .padding(.horizontal, 16)
+                        .padding(.top, 10)
+                    
+                    // Filter options (expandable)
+                    if showFilters {
+                        glassFilterSection
                             .padding(.horizontal, 16)
                             .padding(.top, 8)
-                        
-                        // Items
-                        itemsGrid
-                            .padding(.horizontal, 16)
+                            .transition(.move(edge: .top).combined(with: .opacity))
                     }
-                    .padding(.bottom, 100)
                 }
+                // Background for headers to ensure text legibility while keeping transparency
+                .background(
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.0) // Completely transparent as requested, relying on glass components
+                )
+                
+                Spacer()
             }
         }
         .pixelAlert(isPresented: $showPurchaseAlert, title: "SHOP", message: purchaseMessage)
@@ -126,37 +138,9 @@ struct PixelRoomShopView: View {
             
             Spacer()
             
-            // Bundles button
-            Button {
-                SoundManager.shared.buttonTap()
-                showBundles = true
-                HapticManager.shared.selection()
-            } label: {
-                HStack(spacing: 6) {
-                    Text("🎁")
-                    Text("Bundles")
-                        .font(.system(size: 13, weight: .semibold))
-                }
-                .foregroundColor(parentTheme.currentTheme.text)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(.ultraThinMaterial)
-                        .overlay(
-                            Capsule()
-                                .stroke(
-                                    LinearGradient(
-                                        colors: [.purple.opacity(0.5), .pink.opacity(0.3)],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    ),
-                                    lineWidth: 1
-                                )
-                        )
-                )
-                .shadow(color: .purple.opacity(0.15), radius: 6, x: 0, y: 3)
-            }
+            Spacer()
+            
+            // Bundles button removed (moved to slider widget)
         }
     }
     

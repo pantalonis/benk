@@ -23,24 +23,15 @@ struct PixelRoomInventoryView: View {
             // Themed background with effects (snow, stars, etc.)
             ThemedBackground(theme: parentTheme.currentTheme)
             
-            VStack(spacing: 0) {
-                // Top spacing for container top bar
-                Color.clear.frame(height: 60)
-                
-                // Category selector
-                glassCategoryPicker
-                    .padding(.top, 8)
-                
-                // Search bar
-                glassSearchBar
-                    .padding(.horizontal, 16)
-                    .padding(.top, 10)
-                
-                // Items grid
-                if inventoryManager.ownedItems.isEmpty && inventoryManager.ownedWindowBackgrounds.isEmpty {
-                    emptyState
-                } else {
-                    ScrollView(showsIndicators: false) {
+            // Main Content ScrollView (Behind headers)
+            if inventoryManager.ownedItems.isEmpty && inventoryManager.ownedWindowBackgrounds.isEmpty {
+                emptyState
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        // Spacer for top headers
+                        Color.clear.frame(height: 140) // Adjust based on header height
+                        
                         if selectedCategory == .furniture {
                             let groupedItems = groupItemsBySubCategory(getItemsForCategory())
                             let sortedKeys = getSortedSubCategories(keys: Array(groupedItems.keys))
@@ -85,8 +76,33 @@ struct PixelRoomInventoryView: View {
                             .padding(16)
                         }
                     }
-                    .padding(.bottom, 100)
+                    .padding(.bottom, 120) // Increased bottom padding per request
                 }
+            }
+            
+            // Floating Headers
+            VStack(spacing: 0) {
+                // Top spacing for container top bar
+                Color.clear.frame(height: 60)
+                
+                VStack(spacing: 0) {
+                    // Category selector
+                    glassCategoryPicker
+                        .padding(.top, 8)
+                    
+                    // Search bar
+                    glassSearchBar
+                        .padding(.horizontal, 16)
+                        .padding(.top, 10)
+                }
+                // Background for headers to ensure text legibility while keeping transparency
+                .background(
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.0) // Completely transparent
+                )
+                
+                Spacer()
             }
         }
         .pixelAlert(isPresented: $showPlacementAlert, title: "INVENTORY", message: placementMessage)

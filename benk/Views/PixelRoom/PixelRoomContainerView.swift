@@ -84,24 +84,27 @@ struct PixelRoomContainerView: View {
             }
             
             // Floating Vertical Side Tab Bar (left side) with hide/show
-            HStack {
-                if isTabBarVisible {
-                    floatingVerticalTabBar
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .leading).combined(with: .opacity),
-                            removal: .move(edge: .leading).combined(with: .opacity)
-                        ))
+            VStack {
+                Spacer() // Push to bottom
+                
+                HStack(alignment: .bottom) {
+                    if isTabBarVisible {
+                        floatingVerticalTabBar
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .leading).combined(with: .opacity),
+                                removal: .move(edge: .leading).combined(with: .opacity)
+                            ))
+                    }
+                    
+                    // Hide/Show toggle button (always visible)
+                    hideShowButton
+                        .padding(.leading, isTabBarVisible ? 4 : 12)
+                    
+                    Spacer()
                 }
-                
-                // Hide/Show toggle button (always visible)
-                hideShowButton
-                    .padding(.leading, isTabBarVisible ? 4 : 12)
-                
-                Spacer()
+                .padding(.leading, 12) // Gap from left edge
+                .padding(.bottom, 80) // 116 (absolute) - 34 (safe area) = 80. Gap (24) + Bar (66) + Pad (24) = 114.
             }
-            .padding(.leading, 12) // Gap from left edge
-            .padding(.top, 80) // Clear top bar
-            .padding(.bottom, 100) // Bottom safe area
         }
         .environmentObject(currencyManager)
         .environmentObject(inventoryManager)
@@ -125,9 +128,9 @@ struct PixelRoomContainerView: View {
             HapticManager.shared.selection()
         }) {
             Image(systemName: isTabBarVisible ? "chevron.left" : "line.3.horizontal")
-                .font(.system(size: 12, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(parentTheme.currentTheme.textSecondary)
-                .frame(width: 28, height: 28)
+                .frame(width: 40, height: 40)
                 .background(
                     Circle()
                         .fill(.ultraThinMaterial)

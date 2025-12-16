@@ -18,15 +18,42 @@ struct DailyDealBanner: View {
     @State private var showPurchaseAlert = false
     @State private var purchaseMessage = ""
     
+
+    
+    // Height fixed at 180 for slider compatibility
     var body: some View {
-        if let deal = shopManager.dailyDeal,
-           deal.isToday,
-           let item = ItemCatalog.allShopItems.first(where: { $0.id == deal.itemId }) {
-            
-            VStack(spacing: 0) {
-                dealCard(deal: deal, item: item)
+        Group {
+            if let deal = shopManager.dailyDeal,
+               deal.isToday,
+               let item = ItemCatalog.allShopItems.first(where: { $0.id == deal.itemId }) {
+                
+                VStack(spacing: 0) {
+                    dealCard(deal: deal, item: item)
+                }
+                .frame(height: 180)
+                .pixelAlert(isPresented: $showPurchaseAlert, title: "DAILY DEAL", message: purchaseMessage)
+            } else {
+                // Empty state if no deal
+                VStack(spacing: 8) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 30))
+                        .foregroundColor(themeManager.secondaryText)
+                    Text("No Daily Deal\nCheck back later!")
+                        .font(.system(size: 14, weight: .medium))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(themeManager.secondaryText)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 180)
+                .background(
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(.ultraThinMaterial)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
             }
-            .pixelAlert(isPresented: $showPurchaseAlert, title: "DAILY DEAL", message: purchaseMessage)
         }
     }
     
@@ -38,6 +65,7 @@ struct DailyDealBanner: View {
             buyButton(item: item, deal: deal)
         }
         .padding(16)
+        .frame(maxHeight: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 24)
                 .fill(.ultraThinMaterial)
@@ -316,4 +344,132 @@ struct BundleCard: View {
     }
 }
 
-// Coin Task Card and Earn Coins View removed as requested
+
+// MARK: - Bundles Widget
+
+struct BundlesWidget: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @Binding var showBundlesSheet: Bool
+    
+    var body: some View {
+        Button {
+            SoundManager.shared.buttonTap()
+            showBundlesSheet = true
+            HapticManager.shared.selection()
+        } label: {
+            HStack(spacing: 16) {
+                // Icon/Image
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [.purple.opacity(0.2), .pink.opacity(0.2)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 80, height: 80)
+                    
+                    Text("🎁")
+                        .font(.system(size: 40))
+                }
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text("SPECIAL OFFERS")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(.purple)
+                            .tracking(1)
+                        
+                        Spacer()
+                        
+                        Text("LIMITED")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(
+                                Capsule()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [.purple, .pink],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                            )
+                    }
+                    
+                    Text("Value Bundles")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(themeManager.primaryText)
+                    
+                    Text("Save up to 50% on curated sets!")
+                        .font(.system(size: 13))
+                        .foregroundColor(themeManager.secondaryText)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(themeManager.secondaryText.opacity(0.5))
+            }
+            .padding(20)
+            .frame(height: 180)
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(.ultraThinMaterial)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(
+                        LinearGradient(
+                            colors: [.purple.opacity(0.3), .pink.opacity(0.1)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            )
+            .shadow(color: .purple.opacity(0.1), radius: 10, x: 0, y: 5)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Store Widget Slider
+
+struct StoreWidgetSlider: View {
+    @Binding var showBundlesSheet: Bool
+    @State private var currentPage = 0
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            TabView(selection: $currentPage) {
+                DailyDealBanner()
+                    .padding(.horizontal, 16)
+                    .tag(0)
+                
+                BundlesWidget(showBundlesSheet: $showBundlesSheet)
+                    .padding(.horizontal, 16)
+                    .tag(1)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 180)
+            
+            // Custom Page Indicator
+            HStack(spacing: 6) {
+                ForEach(0..<2) { index in
+                    Circle()
+                        .fill(currentPage == index ? themeManager.primaryText : themeManager.secondaryText.opacity(0.3))
+                        .frame(width: 6, height: 6)
+                        .scaleEffect(currentPage == index ? 1.2 : 1.0)
+                        .animation(.spring(response: 0.3), value: currentPage)
+                }
+            }
+            .padding(.top, 4)
+        }
+    }
+}
+

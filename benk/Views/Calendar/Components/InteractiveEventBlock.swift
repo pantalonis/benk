@@ -91,7 +91,7 @@ struct InteractiveEventBlock: View {
     // MARK: - Body
     var body: some View {
         blockWithHandles
-            .frame(width: layoutInfo.width)
+            .frame(width: max(0, layoutInfo.width))
             .position(
                 x: layoutInfo.x + layoutInfo.width / 2,
                 y: currentY + currentHeight / 2
@@ -108,7 +108,7 @@ struct InteractiveEventBlock: View {
             }
             
             mainBlock
-                .frame(height: currentHeight)
+                .frame(height: max(0, currentHeight))
             
             if isEditing {
                 bottomHandle
@@ -129,7 +129,7 @@ struct InteractiveEventBlock: View {
                 .fill(color)
                 .frame(width: 50, height: 6)
         }
-        .frame(width: layoutInfo.width, height: handleHeight)
+        .frame(width: max(0, layoutInfo.width), height: handleHeight)
         .contentShape(Rectangle())
         .highPriorityGesture(
             DragGesture(minimumDistance: 1)
@@ -156,7 +156,7 @@ struct InteractiveEventBlock: View {
                 .fill(color)
                 .frame(width: 50, height: 6)
         }
-        .frame(width: layoutInfo.width, height: handleHeight)
+        .frame(width: max(0, layoutInfo.width), height: handleHeight)
         .contentShape(Rectangle())
         .highPriorityGesture(
             DragGesture(minimumDistance: 1)
