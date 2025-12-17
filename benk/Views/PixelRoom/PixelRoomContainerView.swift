@@ -41,6 +41,7 @@ struct PixelRoomContainerView: View {
     // MARK: - Local State
     @State private var selectedPage: PixelRoomPage = .room
     @State private var isTabBarVisible = true
+    @State private var showTransactionLog = false
     @Namespace private var animation
     
     // MARK: - Body
@@ -305,6 +306,14 @@ struct PixelRoomContainerView: View {
                 )
         )
         .shadow(color: .black.opacity(0.08), radius: 6, x: 0, y: 3)
+        .onTapGesture {
+            showTransactionLog = true
+            HapticManager.shared.selection()
+        }
+        .sheet(isPresented: $showTransactionLog) {
+            CoinTransactionLogView()
+                .environmentObject(parentTheme)
+        }
     }
 }
 

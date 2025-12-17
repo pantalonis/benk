@@ -112,7 +112,7 @@ class XPService: ObservableObject {
         if didLevelUp {
             // Award coins for leveling up - use CurrencyManager directly
             let coinsReward = profile.level * 10
-            CurrencyManager.shared.coins += coinsReward
+            CurrencyManager.shared.addCoins(coinsReward, source: "Level Up to \(profile.level)")
             
             // Check for XP milestone badges
             checkXPBadges(for: profile, context: context)
@@ -139,7 +139,7 @@ class XPService: ObservableObject {
             if profile.xp >= badge.requirement {
                 badge.isEarned = true
                 badge.earnedDate = Date()
-                CurrencyManager.shared.coins += 50 // Bonus coins for earning badge
+                CurrencyManager.shared.addCoins(50, source: "Badge: \(badge.name)")
             } else {
                 badge.progress = profile.xp
             }

@@ -21,6 +21,8 @@ struct SelectedQuestInfo: Identifiable {
 struct QuestsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var userProfiles: [UserProfile]
+    @Query(filter: #Predicate<StudySession> { $0.isCompleted })
+    private var completedSessions: [StudySession]
     
     @StateObject private var questService = QuestService.shared
     @StateObject private var questStats = QuestStats.shared
@@ -28,6 +30,7 @@ struct QuestsView: View {
     
     @State private var selectedCategory: QuestCategory = .daily
     @State private var selectedQuestInfo: SelectedQuestInfo?
+    @State private var showTransactionLog = false
     
     private var userProfile: UserProfile? {
         userProfiles.first
@@ -91,6 +94,14 @@ struct QuestsView: View {
             )
         }
         .onAppear {
+            // Sync study minutes from actual SwiftData sessions
+            questStats.syncStudyMinutesFromSessions(completedSessions)
+            
+            // Force refresh if quests are using old 3-quest format
+            if questService.activeDailyQuests.count < 5 || questService.activeWeeklyQuests.count < 5 {
+                questService.forceRefreshAllQuests()
+            }
+            
             questStats.checkResets()
             questService.checkRefresh()
             questService.updateAllProgress()
@@ -112,7 +123,7 @@ struct QuestsView: View {
             
             Spacer()
             
-            // Coins display
+            // Coins display (tappable)
             HStack(spacing: 4) {
                 Image(systemName: "dollarsign.circle.fill")
                     .foregroundColor(.yellow)
@@ -126,6 +137,14 @@ struct QuestsView: View {
                 Capsule()
                     .fill(.ultraThinMaterial)
             )
+            .onTapGesture {
+                showTransactionLog = true
+                HapticManager.shared.selection()
+            }
+            .sheet(isPresented: $showTransactionLog) {
+                CoinTransactionLogView()
+                    .environmentObject(themeService)
+            }
         }
     }
     

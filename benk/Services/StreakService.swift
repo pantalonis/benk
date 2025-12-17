@@ -75,7 +75,7 @@ class StreakService: ObservableObject {
                 badge.isEarned = true
                 badge.earnedDate = Date()
                 badge.progress = badge.requirement
-                CurrencyManager.shared.coins += 100 // Bonus coins for streak badges
+                CurrencyManager.shared.addCoins(100, source: "Streak Badge: \(badge.name)")
                 try? context.save()
                 // Queue badge for popup using BadgeService
                 BadgeService.shared.queueBadgeForPopup(badge)

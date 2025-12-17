@@ -271,6 +271,45 @@ struct QuestCatalog {
             coinReward: 85,
             colorHex: "#4CAF50"
         ),
+        QuestTemplate(
+            id: "daily_goal_double",
+            title: "Double Down",
+            description: "Complete daily goal twice over",
+            instructions: "Study for double your daily goal! If your goal is 1 hour, study for 2 hours.",
+            lore: "Those who double their efforts reap quadruple rewards. The Path of Excess leads to the Palace of Wisdom.",
+            icon: "target",
+            category: .daily,
+            trackingType: .exceedDailyGoal,
+            targetValue: 60,
+            coinReward: 120,
+            colorHex: "#FF9800"
+        ),
+        QuestTemplate(
+            id: "daily_streak_mini",
+            title: "Goal Streak Mini",
+            description: "Hit daily goal 2 days in a row",
+            instructions: "Complete your daily study goal today AND yesterday. Keep the momentum going!",
+            lore: "Two consecutive victories forge an unbreakable chain. The first links are always the hardest.",
+            icon: "flame.fill",
+            category: .daily,
+            trackingType: .streakDays,
+            targetValue: 2,
+            coinReward: 70,
+            colorHex: "#E91E63"
+        ),
+        QuestTemplate(
+            id: "daily_study_90",
+            title: "90-Minute Focus",
+            description: "Study for 1.5 hours",
+            instructions: "Dedicate 90 minutes to studying today. The sweet spot for deep learning!",
+            lore: "Ninety minutes is the rhythm of mastery. The brain's natural focus cycle aligns with this sacred duration.",
+            icon: "book.fill",
+            category: .daily,
+            trackingType: .studyMinutesToday,
+            targetValue: 90,
+            coinReward: 80,
+            colorHex: "#2196F3"
+        ),
     ]
     
     // MARK: - Weekly Quests (150-350 coins)

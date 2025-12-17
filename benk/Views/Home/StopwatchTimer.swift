@@ -213,6 +213,7 @@ struct StopwatchTimer: View {
             TechniquePickerSheet { technique in
                 savePendingSession(technique: technique)
             }
+            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $showingBreakTagSelection) {
             BreakTagPickerSheet(breakDuration: timerService.breakDuration) { tag in
@@ -384,6 +385,10 @@ struct StopwatchTimer: View {
         
         // Save context before badge checking
         try? modelContext.save()
+        
+        // Track study session for quests
+        QuestStats.shared.recordStudySession(durationSeconds: pending.duration, subjectId: selectedSubject?.id)
+        QuestService.shared.updateAllProgress()
         
         // Check badges after session completion
         checkBadgesAfterSession(sessionDuration: pending.duration, sessionTime: Date(), technique: technique)

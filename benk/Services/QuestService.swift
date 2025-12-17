@@ -185,8 +185,8 @@ class QuestService: ObservableObject {
     }
     
     private func refreshDailyQuests() {
-        // Pick 3 random daily quests
-        let templates = QuestCatalog.dailyQuests.shuffled().prefix(3)
+        // Pick 5 random daily quests
+        let templates = QuestCatalog.dailyQuests.shuffled().prefix(5)
         activeDailyQuests = templates.map { template in
             ActiveQuest(
                 id: UUID(),
@@ -202,8 +202,8 @@ class QuestService: ObservableObject {
     }
     
     private func refreshWeeklyQuests() {
-        // Pick 3 random weekly quests
-        let templates = QuestCatalog.weeklyQuests.shuffled().prefix(3)
+        // Pick 5 random weekly quests
+        let templates = QuestCatalog.weeklyQuests.shuffled().prefix(5)
         activeWeeklyQuests = templates.map { template in
             ActiveQuest(
                 id: UUID(),
@@ -216,6 +216,13 @@ class QuestService: ObservableObject {
         }
         UserDefaults.standard.set(Date(), forKey: lastWeeklyRefreshKey)
         saveQuests()
+    }
+    
+    /// Force refresh all quests (use when quests are outdated, e.g. after updating from 3 to 5 quests)
+    func forceRefreshAllQuests() {
+        refreshDailyQuests()
+        refreshWeeklyQuests()
+        updateAllProgress()
     }
     
     // MARK: - Streak Reward Calculation
@@ -354,7 +361,7 @@ class QuestService: ObservableObject {
         
         activeDailyQuests[index].isClaimed = true
         activeDailyQuests[index].claimedAt = Date()
-        CurrencyManager.shared.addCoins(template.coinReward)
+        CurrencyManager.shared.addCoins(template.coinReward, source: "Daily: \(template.title)")
         QuestStats.shared.recordDailyChallengeCompletion()
         saveQuests()
         HapticManager.shared.success()
@@ -371,7 +378,7 @@ class QuestService: ObservableObject {
         
         activeWeeklyQuests[index].isClaimed = true
         activeWeeklyQuests[index].claimedAt = Date()
-        CurrencyManager.shared.addCoins(template.coinReward)
+        CurrencyManager.shared.addCoins(template.coinReward, source: "Weekly: \(template.title)")
         saveQuests()
         HapticManager.shared.success()
         return template.coinReward
@@ -387,7 +394,7 @@ class QuestService: ObservableObject {
         guard progress >= template.targetValue else { return nil }
         
         completedGoalIds.insert(templateId)
-        CurrencyManager.shared.addCoins(template.coinReward)
+        CurrencyManager.shared.addCoins(template.coinReward, source: "Goal: \(template.title)")
         saveQuests()
         HapticManager.shared.success()
         return template.coinReward
@@ -397,7 +404,7 @@ class QuestService: ObservableObject {
         guard QuestStats.shared.canClaimStreakReward else { return nil }
         
         let coins = streakRewardCoins(for: streak)
-        CurrencyManager.shared.addCoins(coins)
+        CurrencyManager.shared.addCoins(coins, source: "Streak Reward (\(streak) days)")
         QuestStats.shared.recordStreakRewardClaim()
         HapticManager.shared.success()
         return coins
@@ -442,5 +449,27 @@ class QuestService: ObservableObject {
     var goalsProgress: Double {
         guard totalGoalsCount > 0 else { return 0 }
         return Double(completedGoalsCount) / Double(totalGoalsCount)
+    }
+    
+    // MARK: - Reset Claimed Status
+    
+    /// Resets all claimed status for quests (not progress data)
+    func resetClaimedStatus() {
+        // Reset daily quest claimed status
+        for i in activeDailyQuests.indices {
+            activeDailyQuests[i].isClaimed = false
+            activeDailyQuests[i].claimedAt = nil
+        }
+        
+        // Reset weekly quest claimed status
+        for i in activeWeeklyQuests.indices {
+            activeWeeklyQuests[i].isClaimed = false
+            activeWeeklyQuests[i].claimedAt = nil
+        }
+        
+        // Reset completed goal IDs
+        completedGoalIds = []
+        
+        saveQuests()
     }
 }

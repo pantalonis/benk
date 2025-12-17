@@ -171,7 +171,7 @@ class PetManager: ObservableObject {
         petStates[petId] = pet
         
         // Award coins for feeding
-        CurrencyManager.shared.addCoins(10)
+        CurrencyManager.shared.addCoins(10, source: "Fed Pet")
         
         // Reset animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -194,7 +194,7 @@ class PetManager: ObservableObject {
         petStates[petId] = pet
         
         // Award coins for playing
-        CurrencyManager.shared.addCoins(15)
+        CurrencyManager.shared.addCoins(15, source: "Played with Pet")
         
         // Reset animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

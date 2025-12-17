@@ -297,7 +297,7 @@ struct SettingsView: View {
     private var debugSection: some View {
         Section("Debug") {
             Button("Add 10000 Coins 💰") {
-                CurrencyManager.shared.coins += 10000
+                CurrencyManager.shared.addCoins(10000, source: "Debug Bonus")
                 HapticManager.shared.success()
             }
             .foregroundColor(.yellow)
@@ -756,6 +756,18 @@ struct SettingsView: View {
     
     private var dataManagementSection: some View {
         Section("Data Management") {
+            Button {
+                QuestService.shared.resetClaimedStatus()
+                HapticManager.shared.success()
+            } label: {
+                HStack {
+                    Image(systemName: "arrow.counterclockwise")
+                        .foregroundColor(themeService.currentTheme.accent)
+                    Text("Reset Quest Claims")
+                        .foregroundColor(themeService.currentTheme.text)
+                }
+            }
+            
             Button(role: .destructive) {
                 showResetConfirmation = true
             } label: {

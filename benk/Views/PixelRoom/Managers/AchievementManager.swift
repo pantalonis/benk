@@ -117,7 +117,7 @@ class AchievementManager: ObservableObject {
         let reward = DailyRewardCatalog.getReward(for: day)
         
         // Award coins
-        CurrencyManager.shared.addCoins(reward.coins)
+        CurrencyManager.shared.addCoins(reward.coins, source: "Daily Login (Day \(day))")
         
         // Award bonus item if available
         if let bonusItemId = reward.bonusItem,
@@ -199,7 +199,7 @@ class AchievementManager: ObservableObject {
                 dailyTaskProgress[task.id] = progress
                 
                 // Award coins
-                CurrencyManager.shared.addCoins(task.rewardCoins)
+                CurrencyManager.shared.addCoins(task.rewardCoins, source: "Daily Task: \(task.title)")
                 
                 dailyTaskCompletedPublisher.send(task)
                 
@@ -222,7 +222,7 @@ class AchievementManager: ObservableObject {
         }
         
         // Award coins
-        CurrencyManager.shared.addCoins(achievement.rewardCoins)
+        CurrencyManager.shared.addCoins(achievement.rewardCoins, source: "Achievement: \(achievement.title)")
         
         progress.isRewardClaimed = true
         achievementProgress[achievementId] = progress

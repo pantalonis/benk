@@ -274,4 +274,41 @@ class QuestStats: ObservableObject {
         UserDefaults.standard.set(now, forKey: lastDailyResetKey)
         UserDefaults.standard.set(now, forKey: lastWeeklyResetKey)
     }
+    
+    // MARK: - Sync from SwiftData Sessions
+    
+    /// Sync study minutes from actual SwiftData sessions (call this to fix historical data)
+    func syncStudyMinutesFromSessions(_ sessions: [StudySession]) {
+        let calendar = Calendar.current
+        let now = Date()
+        let todayStart = calendar.startOfDay(for: now)
+        
+        // Calculate week start (Monday)
+        let weekday = calendar.component(.weekday, from: now)
+        let daysToMonday = (weekday == 1) ? -6 : (2 - weekday)
+        let weekStart = calendar.date(byAdding: .day, value: daysToMonday, to: todayStart) ?? todayStart
+        
+        // Filter completed sessions
+        let completedSessions = sessions.filter { $0.isCompleted }
+        
+        // Calculate today's minutes
+        let todaySessions = completedSessions.filter { 
+            calendar.isDate($0.timestamp, inSameDayAs: now) 
+        }
+        let todaySeconds = todaySessions.reduce(0) { $0 + $1.duration }
+        studyMinutesToday = todaySeconds / 60
+        
+        // Calculate this week's minutes
+        let weekSessions = completedSessions.filter {
+            $0.timestamp >= weekStart && $0.timestamp <= now
+        }
+        let weekSeconds = weekSessions.reduce(0) { $0 + $1.duration }
+        studyMinutesThisWeek = weekSeconds / 60
+        
+        // Calculate total minutes
+        let totalSeconds = completedSessions.reduce(0) { $0 + $1.duration }
+        studyMinutesTotal = totalSeconds / 60
+        
+        saveStats()
+    }
 }
