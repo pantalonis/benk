@@ -14,6 +14,7 @@ struct benk: App {
     @StateObject private var timerService = TimerService.shared
     @StateObject private var badgeService = BadgeService.shared
     @StateObject private var xpService = XPService.shared
+    @Environment(\.scenePhase) private var scenePhase
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -78,6 +79,20 @@ struct benk: App {
                 .environmentObject(badgeService)
                 .environmentObject(xpService)
                 .preferredColorScheme(themeService.currentTheme.isDark ? .dark : .light)
+                .onChange(of: scenePhase) { _, newPhase in
+                    switch newPhase {
+                    case .background:
+                        _Concurrency.Task { @MainActor in
+                            timerService.handleAppDidEnterBackground()
+                        }
+                    case .active:
+                        _Concurrency.Task { @MainActor in
+                            timerService.handleAppWillEnterForeground()
+                        }
+                    default:
+                        break
+                    }
+                }
         }
     }
 }

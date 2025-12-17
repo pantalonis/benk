@@ -37,8 +37,8 @@ struct ProfileView: View {
     
     var body: some View {
         ZStack {
-            ThemedBackground(theme: themeService.currentTheme)
-            
+            // Themed background with effects
+            ThemedBackground(theme: themeService.currentTheme)            
             ScrollView {
                 VStack(spacing: 24) {
                     // Profile Header

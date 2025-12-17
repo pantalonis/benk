@@ -18,9 +18,10 @@ class ThemeService: ObservableObject {
     let allThemes: [AppTheme] = [ 
         DarkTheme(),
         LightTheme(),
-        CyberpunkTheme(),
+        NightCityTheme(),
         SpaceTheme(),
         ChiikawaTheme(),
+        CloudyDayTheme(),
         RetroTerminalTheme(),
         ChristmasNightTheme()
     ]

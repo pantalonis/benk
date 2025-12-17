@@ -738,7 +738,17 @@ struct PixelRoomShopView: View {
     }
     
     private func getSortedSubCategories(keys: [String]) -> [String] {
-        let order = ["Beds", "Tables", "Chairs", "Storage", "Wall Mounted", "Decorations", "Other"]
+        let order = [
+            "Beds",
+            "Tables", 
+            "Seating",
+            "Storage",
+            "Clocks",
+            "Decorations",
+            "Pro Gaming Collection",
+            "Royal Regalia Collection",
+            "Other"
+        ]
         return keys.sorted { (a, b) -> Bool in
             let indexA = order.firstIndex(of: a) ?? Int.max
             let indexB = order.firstIndex(of: b) ?? Int.max

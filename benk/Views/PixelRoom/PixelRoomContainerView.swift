@@ -47,7 +47,8 @@ struct PixelRoomContainerView: View {
     var body: some View {
         ZStack {
             // Themed background with effects (snow, stars, etc.)
-            ThemedBackground(theme: parentTheme.currentTheme)
+            // Background provided by ContentView
+
             
             // Main Content Area (full width)
             contentView

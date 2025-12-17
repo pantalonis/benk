@@ -28,6 +28,7 @@ protocol AppTheme {
     var hasScanline: Bool { get }
     var hasCuteElements: Bool { get }
     var hasParticles: Bool { get }
+    var hasClouds: Bool { get }
     
     // Christmas Effects
     var hasSnow: Bool { get }
@@ -45,4 +46,6 @@ extension AppTheme {
     var hasSnow: Bool { false }
     var hasSanta: Bool { false }
     var isChristmas: Bool { false }
+    var hasClouds: Bool { false }
 }
+

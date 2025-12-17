@@ -12,10 +12,8 @@ struct GroupsView: View {
     
     var body: some View {
         ZStack {
-            // Background
-            themeService.currentTheme.background
-                .ignoresSafeArea()
-            
+            // Themed background with effects
+            ThemedBackground(theme: themeService.currentTheme)            
             VStack(spacing: 20) {
                 // Header
                 Text("Study Groups")

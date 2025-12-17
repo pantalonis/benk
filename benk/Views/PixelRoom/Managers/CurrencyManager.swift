@@ -23,9 +23,8 @@ class CurrencyManager: ObservableObject {
     }
     
     private init() {
-        // Load from UserDefaults, default to 10000 for new users
-        let saved = UserDefaults.standard.integer(forKey: coinsKey)
-        self.coins = saved > 0 ? saved : 10000
+        // Load from UserDefaults, default to 0 for new users
+        self.coins = UserDefaults.standard.integer(forKey: coinsKey)
     }
     
     // MARK: - Public Methods

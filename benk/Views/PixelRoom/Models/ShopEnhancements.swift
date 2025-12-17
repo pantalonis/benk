@@ -174,57 +174,93 @@ class ShopManager: ObservableObject {
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         
         availableBundles = [
+            // Starter Pack: Simple Bed (50) + Comfort Sofa (120) + Study Desk (90) + Simple Plant (25) = 285
             ItemBundle(
                 id: "starter_pack",
                 name: "Starter Pack",
                 description: "Everything you need to begin!",
                 itemIds: ["bed_extra_3", "chair_1", "desk_1", "simple plant"],
-                bundlePrice: 120,
-                regularPrice: 175,
+                bundlePrice: 200,
+                regularPrice: 285,
                 icon: "🎁",
                 isLimitedTime: false,
                 endDate: nil
             ),
+            
+            // Pet Lovers: Chicat (80) + Ocat (85) + Blaite (90) = 255
             ItemBundle(
                 id: "pet_lovers",
                 name: "Pet Lovers Bundle",
                 description: "Adopt 3 adorable companions!",
                 itemIds: ["chicat", "ocat", "blaite"],
-                bundlePrice: 200,
+                bundlePrice: 180,
                 regularPrice: 255,
                 icon: "🐾",
                 isLimitedTime: false,
                 endDate: nil
             ),
+            
+            // Cozy Corner: Yellow Reading Nook (280) + Bookshelf (95) + Wool Rug (50) + Simple Plant (25) = 450
             ItemBundle(
                 id: "cozy_corner",
                 name: "Cozy Corner",
-                description: "Create a relaxing space",
-                itemIds: ["fur_extra_7", "fur_extra_9", "rug_2", "fur_extra_5"],
-                bundlePrice: 250,
-                regularPrice: 345,
+                description: "Create a relaxing reading space",
+                itemIds: ["fur_extra_20", "bookshelf_1", "rug_2", "simple plant"],
+                bundlePrice: 320,
+                regularPrice: 450,
                 icon: "☕",
                 isLimitedTime: false,
                 endDate: nil
             ),
+            
+            // Pro Gaming Collection: All 4 gaming items
+            // Futuristic Gaming Setup (450) + Elite Gaming Station (650) + Modern Gaming Desk (350) + Gaming PC Setup (750) = 2200
             ItemBundle(
-                id: "gamer_setup",
-                name: "Gamer's Paradise",
-                description: "Ultimate gaming setup!",
-                itemIds: ["PC", "fur_extra_8", "desk_1", "fur_extra_13"],
-                bundlePrice: 900,
-                regularPrice: 1210,
+                id: "pro_gaming",
+                name: "Pro Gaming Collection",
+                description: "The ultimate gaming setup bundle!",
+                itemIds: ["fur_extra_1", "fur_extra_2", "fur_extra_31", "PC"],
+                bundlePrice: 1500,
+                regularPrice: 2200,
                 icon: "🎮",
+                isLimitedTime: false,
+                endDate: nil
+            ),
+            
+            // Royal Regalia Collection: Royal Throne (1200) + Royal Amethyst Bed (1500) + Royal Vanity Mirror (680) = 3380
+            ItemBundle(
+                id: "royal_regalia",
+                name: "Royal Regalia Collection",
+                description: "Rule your room like royalty!",
+                itemIds: ["fur_extra_3", "fur_extra_4", "fur_extra_38"],
+                bundlePrice: 2400,
+                regularPrice: 3380,
+                icon: "👑",
                 isLimitedTime: true,
                 endDate: tomorrow
             ),
+            
+            // Clock Collector: Analog Clock (65) + Classic Alarm Clock (75) + Dark Oak Grandfather Clock (320) = 460
+            ItemBundle(
+                id: "clock_collector",
+                name: "Clock Collector",
+                description: "Time is on your side!",
+                itemIds: ["fur_extra_12", "fur_extra_15", "clock_1"],
+                bundlePrice: 330,
+                regularPrice: 460,
+                icon: "⏰",
+                isLimitedTime: false,
+                endDate: nil
+            ),
+            
+            // Luxury Bedroom: Royal Bed (400) + Mirrored Wardrobe (180) + Oak Vanity Dresser (220) + Persian Rug (120) = 920
             ItemBundle(
                 id: "luxury_bedroom",
                 name: "Luxury Bedroom",
                 description: "Sleep in style!",
-                itemIds: ["bed_extra_6", "fur_extra_1", "mirror_1", "rug_1"],
-                bundlePrice: 550,
-                regularPrice: 695,
+                itemIds: ["bed_extra_6", "dresser_1", "mirror_1", "rug_1"],
+                bundlePrice: 650,
+                regularPrice: 920,
                 icon: "✨",
                 isLimitedTime: false,
                 endDate: nil

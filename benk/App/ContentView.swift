@@ -33,10 +33,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background gradient
-                themeService.currentTheme.background
-                    .ignoresSafeArea()
-                
                 // Main content based on selected tab
                 Group {
                     switch selectedTab {
@@ -52,11 +48,8 @@ struct ContentView: View {
                         HomeView()
                     }
                 }
-                .transition(.asymmetric(
-                    insertion: .opacity.combined(with: .scale(scale: 0.98)),
-                    removal: .opacity
-                ))
-                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: selectedTab)
+                .transition(.opacity)
+                .animation(.easeInOut(duration: 0.15), value: selectedTab)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 // Custom liquid glass tab bar overlay with plus button
@@ -101,6 +94,7 @@ struct ContentView: View {
             }
             .animation(.spring(response: 0.4, dampingFraction: 0.8), value: badgeService.showBadgeEarnedPopup)
             .animation(.spring(response: 0.4, dampingFraction: 0.8), value: xpService.showLevelUpPopup)
+            .toolbarBackground(.hidden, for: .navigationBar)
         }
     }
     

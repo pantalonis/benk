@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct ScanlineEffect: View {
+    private let screenWidth = UIScreen.main.bounds.width
+    private let screenHeight = UIScreen.main.bounds.height
+    
     var body: some View {
-        TimelineView(.animation(minimumInterval: 0.033)) { timeline in
+        TimelineView(.animation(minimumInterval: 0.066)) { timeline in
             Canvas { context, size in
                 // Calculate animated offset (cycles every 2 seconds, moves 4 pixels)
                 let time = timeline.date.timeIntervalSinceReferenceDate
@@ -21,8 +24,8 @@ struct ScanlineEffect: View {
                 let spacing: CGFloat = 4
                 var y = offset
                 
-                while y < size.height + spacing {
-                    let rect = CGRect(x: 0, y: y, width: size.width, height: lineHeight)
+                while y < screenHeight + spacing {
+                    let rect = CGRect(x: 0, y: y, width: screenWidth, height: lineHeight)
                     context.fill(Path(rect), with: .color(.white.opacity(0.03)))
                     y += spacing
                 }

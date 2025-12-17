@@ -43,6 +43,13 @@ class TimerService: ObservableObject {
     private var totalDuration: Int = 0
     private var isStopwatchMode: Bool = false
     
+    // Background timer support
+    private var backgroundEnterTime: Date?
+    private var accumulatedElapsedBeforeBackground: Int = 0
+    private var accumulatedSegmentBeforeBackground: Int = 0
+    private var accumulatedBreakBeforeBackground: Int = 0
+    private var accumulatedRemainingBeforeBackground: Int = 0
+    
     var progress: Double {
         guard totalDuration > 0 else { return 0 }
         return 1.0 - (Double(remainingTime) / Double(totalDuration))
@@ -185,6 +192,64 @@ class TimerService: ObservableObject {
     /// Reset elapsed time for next session segment (used for incremental logging)
     func resetElapsedTime() {
         elapsedTime = 0
+    }
+    
+    // MARK: - Background Timer Support
+    
+    /// Called when app enters background - save current state
+    func handleAppDidEnterBackground() {
+        // Only track if timer is actively running (not paused)
+        guard isRunning && !isPaused else {
+            // Also track break timer if active
+            if isBreakActive {
+                backgroundEnterTime = Date()
+                accumulatedBreakBeforeBackground = breakDuration
+            }
+            return
+        }
+        
+        backgroundEnterTime = Date()
+        accumulatedElapsedBeforeBackground = elapsedTime
+        accumulatedSegmentBeforeBackground = segmentElapsedTime
+        accumulatedRemainingBeforeBackground = remainingTime
+    }
+    
+    /// Called when app returns to foreground - calculate elapsed background time
+    func handleAppWillEnterForeground() {
+        guard let enterTime = backgroundEnterTime else { return }
+        
+        let backgroundDuration = Int(Date().timeIntervalSince(enterTime))
+        
+        // Update break timer if it was active
+        if isBreakActive {
+            breakDuration = accumulatedBreakBeforeBackground + backgroundDuration
+            backgroundEnterTime = nil
+            return
+        }
+        
+        // Only update if timer was running (not paused)
+        guard isRunning && !isPaused else {
+            backgroundEnterTime = nil
+            return
+        }
+        
+        if isStopwatchMode {
+            // Stopwatch: add background time to elapsed
+            elapsedTime = accumulatedElapsedBeforeBackground + backgroundDuration
+            segmentElapsedTime = accumulatedSegmentBeforeBackground + backgroundDuration
+        } else {
+            // Countdown: subtract background time from remaining
+            let newRemaining = accumulatedRemainingBeforeBackground - backgroundDuration
+            if newRemaining <= 0 {
+                // Timer completed while in background
+                remainingTime = 0
+                completeTimer()
+            } else {
+                remainingTime = newRemaining
+            }
+        }
+        
+        backgroundEnterTime = nil
     }
     
     private func completeTimer() {

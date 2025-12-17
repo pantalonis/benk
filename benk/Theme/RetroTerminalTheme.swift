@@ -2,22 +2,24 @@
 //  RetroTerminalTheme.swift
 //  benk
 //
-//  Created on 2025-12-11
+//  Matrix Glass - Premium hacker liquid glass theme
 //
 
 import SwiftUI
 
 struct RetroTerminalTheme: AppTheme {
     let id = "retro"
-    let name = "Retro Terminal"
+    let name = "Matrix Glass"
     let price = 250
     let isDark = true
     
     var background: LinearGradient {
         LinearGradient(
             colors: [
-                Color(hex: "#0C0C0C") ?? .black,
-                Color(hex: "#1A1A1A") ?? .black
+                Color(hex: "#000000") ?? .black,       // Pure black
+                Color(hex: "#001A0A") ?? .green,       // Dark emerald hint
+                Color(hex: "#000F05") ?? .black,       // Subtle green-black
+                Color(hex: "#000000") ?? .black        // Back to black
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -25,27 +27,27 @@ struct RetroTerminalTheme: AppTheme {
     }
     
     var surface: Color {
-        Color(hex: "#1E1E1E")?.opacity(0.6) ?? .gray.opacity(0.1)
+        Color(hex: "#0A1A0F")?.opacity(0.65) ?? .green.opacity(0.1)
     }
     
     var primary: Color {
-        Color(hex: "#00FF00") ?? .green
+        Color(hex: "#00FF41") ?? .green   // Matrix green
     }
     
     var accent: Color {
-        Color(hex: "#00FF00") ?? .green
+        Color(hex: "#39FF14") ?? .green   // Neon green
     }
     
     var text: Color {
-        Color(hex: "#00FF00") ?? .green
+        Color(hex: "#00FF41") ?? .green   // Matrix green text
     }
     
     var textSecondary: Color {
-        Color(hex: "#00AA00") ?? .green.opacity(0.7)
+        Color(hex: "#00AA2A") ?? .green   // Dimmer green
     }
     
     var glow: Color {
-        Color(hex: "#00FF00") ?? .green
+        Color(hex: "#00FF41") ?? .green   // Green glow
     }
     
     var hasGlow: Bool { true }

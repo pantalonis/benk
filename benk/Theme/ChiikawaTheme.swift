@@ -2,23 +2,24 @@
 //  ChiikawaTheme.swift
 //  benk
 //
-//  Created on 2025-12-11
+//  Sakura Dream - Elegant kawaii liquid glass theme
 //
 
 import SwiftUI
 
 struct ChiikawaTheme: AppTheme {
     let id = "chiikawa"
-    let name = "Chiikawa Cute"
+    let name = "Sakura Dream"
     let price = 400
     let isDark = false
     
     var background: LinearGradient {
         LinearGradient(
             colors: [
-                Color(hex: "#FFF0F5") ?? .pink.opacity(0.1),
-                Color(hex: "#FFE4E1") ?? .pink.opacity(0.2),
-                Color(hex: "#FFDAB9") ?? .orange.opacity(0.2)
+                Color(hex: "#FFF5F8") ?? .pink,        // Soft blush
+                Color(hex: "#FFE4EC") ?? .pink,        // Cherry blossom pink
+                Color(hex: "#FFF0E8") ?? .orange,      // Warm cream
+                Color(hex: "#FFF8F5") ?? .white        // Delicate fade
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
@@ -26,29 +27,29 @@ struct ChiikawaTheme: AppTheme {
     }
     
     var surface: Color {
-        Color(hex: "#FFFFFF")?.opacity(0.8) ?? .white.opacity(0.8)
+        Color(hex: "#FFFFFF")?.opacity(0.85) ?? .white.opacity(0.85)
     }
     
     var primary: Color {
-        Color(hex: "#FF69B4") ?? .pink
+        Color(hex: "#E91E8C") ?? .pink    // Vivid magenta pink
     }
     
     var accent: Color {
-        Color(hex: "#87CEEB") ?? .blue
+        Color(hex: "#5BA0D0") ?? .blue    // Soft sky blue
     }
     
     var text: Color {
-        Color(hex: "#5C4033") ?? .brown
+        Color(hex: "#3D2C29") ?? .brown   // Deep brown for readability
     }
     
     var textSecondary: Color {
-        Color(hex: "#8B7355") ?? .brown.opacity(0.7)
+        Color(hex: "#6B5750") ?? .brown   // Warm taupe
     }
     
     var glow: Color {
-        Color(hex: "#FFB6C1") ?? .pink
+        Color(hex: "#FFB5D5") ?? .pink    // Soft pink glow
     }
     
     var hasCuteElements: Bool { true }
-    var hasParticles: Bool { true } // Sparkles
+    var hasGlow: Bool { true }
 }

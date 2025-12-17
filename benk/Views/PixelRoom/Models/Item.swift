@@ -109,6 +109,10 @@ struct ItemCatalog {
     
     // MARK: - Furniture Items
     static let furnitureItems: [Item] = [
+        // ═══════════════════════════════════════════════════════════════
+        // BEDS
+        // ═══════════════════════════════════════════════════════════════
+        
         // BASIC BEDS (Affordable starters)
         Item(id: "bed_extra_3", name: "Simple Bed", imageName: "bed_extra_3", category: .furniture, price: 50, gridWidth: 2, gridDepth: 2, subCategory: "Beds"),
         Item(id: "bed_extra_4", name: "Basic Bed", imageName: "bed_extra_4", category: .furniture, price: 60, gridWidth: 2, gridDepth: 2, subCategory: "Beds"),
@@ -128,112 +132,113 @@ struct ItemCatalog {
         Item(id: "bed_extra_7", name: "Premium Bed", imageName: "bed_extra_7", category: .furniture, price: 380, gridWidth: 2, gridDepth: 2, subCategory: "Beds"),
         Item(id: "bed_extra_8", name: "Elite Bed", imageName: "bed_extra_8", category: .furniture, price: 420, gridWidth: 2, gridDepth: 2, subCategory: "Beds"),
         
+        // LEGENDARY BED - Royal Regalia Collection
+        Item(id: "fur_extra_4", name: "Royal Amethyst Bed", imageName: "fur_extra_4", category: .furniture, price: 1500, gridWidth: 2, gridDepth: 2, subCategory: "Beds"),
+        
+        // ═══════════════════════════════════════════════════════════════
+        // TABLES
+        // ═══════════════════════════════════════════════════════════════
+        
         // BASIC TABLES
-        Item(id: "table_1", name: "Simple Table", imageName: "fur_table4", category: .furniture, price: 40, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
+        Item(id: "table_1", name: "Dark Oak Dining Table", imageName: "fur_table4", category: .furniture, price: 180, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
         Item(id: "kitchen_cart_1", name: "Kitchen Cart", imageName: "fur_kitchen_car", category: .furniture, price: 65, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
         
         // COMMON TABLES
         Item(id: "desk_1", name: "Study Desk", imageName: "fur_desk", category: .furniture, price: 90, gridWidth: 1, gridDepth: 1, subCategory: "Tables"),
-        Item(id: "fur_extra_14", name: "Laptop Stand", imageName: "fur_extra_14", category: .furniture, price: 120, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
+        Item(id: "fur_extra_14", name: "Kitchen Shelf Unit", imageName: "fur_extra_14", category: .furniture, price: 120, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
+        Item(id: "fur_extra_7", name: "Reading Nightstand", imageName: "fur_extra_7", category: .furniture, price: 95, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
         
-        // EPIC TABLE
-        Item(id: "PC", name: "Gaming PC Setup", imageName: "PC", category: .furniture, price: 650, gridWidth: 2, gridDepth: 1, subCategory: "Tables"),
+        // RARE TABLES
+        Item(id: "fur_extra_19", name: "Oak Dining Set", imageName: "fur_extra_19", category: .furniture, price: 420, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
+        Item(id: "fur_extra_33", name: "Terrarium Workspace", imageName: "fur_extra_33", category: .furniture, price: 380, gridWidth: 2, gridDepth: 2, subCategory: "Tables"),
         
-        // BASIC CHAIRS
-        Item(id: "chair_1", name: "Basic Chair", imageName: "fur_chair", category: .furniture, price: 30, gridWidth: 1, gridDepth: 1, subCategory: "Chairs"),
+        // PRO GAMING COLLECTION - Tables
+        Item(id: "fur_extra_1", name: "Futuristic Gaming Setup", imageName: "fur_extra_1", category: .furniture, price: 450, gridWidth: 2, gridDepth: 2, subCategory: "Pro Gaming Collection"),
+        Item(id: "fur_extra_2", name: "Elite Gaming Station", imageName: "fur_extra_2", category: .furniture, price: 650, gridWidth: 2, gridDepth: 2, subCategory: "Pro Gaming Collection"),
+        Item(id: "fur_extra_31", name: "Modern Gaming Desk", imageName: "fur_extra_31", category: .furniture, price: 350, gridWidth: 2, gridDepth: 2, subCategory: "Pro Gaming Collection"),
+        Item(id: "PC", name: "Gaming PC Setup", imageName: "PC", category: .furniture, price: 750, gridWidth: 2, gridDepth: 1, subCategory: "Pro Gaming Collection"),
         
-        // COMMON CHAIRS
-        Item(id: "fur_extra_6", name: "Bean Bag", imageName: "fur_extra_6", category: .furniture, price: 85, gridWidth: 2, gridDepth: 2, subCategory: "Chairs"),
-        Item(id: "fur_extra_7", name: "Cozy Armchair", imageName: "fur_extra_7", category: .furniture, price: 110, gridWidth: 2, gridDepth: 2, subCategory: "Chairs"),
+        // ═══════════════════════════════════════════════════════════════
+        // SEATING
+        // ═══════════════════════════════════════════════════════════════
         
-        // RARE CHAIR
-        Item(id: "fur_extra_8", name: "Gaming Chair", imageName: "fur_extra_8", category: .furniture, price: 280, gridWidth: 1, gridDepth: 1, subCategory: "Chairs"),
+        // BASIC SEATING
+        Item(id: "chair_1", name: "Comfort Sofa", imageName: "fur_chair", category: .furniture, price: 120, gridWidth: 1, gridDepth: 1, subCategory: "Seating"),
+        
+        // UNCOMMON SEATING
+        Item(id: "fur_extra_20", name: "Yellow Reading Nook", imageName: "fur_extra_20", category: .furniture, price: 280, gridWidth: 2, gridDepth: 2, subCategory: "Seating"),
+        
+        // RARE SEATING
+        Item(id: "fur_extra_8", name: "Family Sofa", imageName: "fur_extra_8", category: .furniture, price: 380, gridWidth: 2, gridDepth: 2, subCategory: "Seating"),
+        
+        // EPIC SEATING - Living Room Set
+        Item(id: "photo_1", name: "Living Room Collection", imageName: "fur_fam", category: .furniture, price: 850, gridWidth: 3, gridDepth: 3, canRotate: false, subCategory: "Seating"),
+        
+        // LEGENDARY SEATING - Royal Regalia Collection
+        Item(id: "fur_extra_3", name: "Royal Throne", imageName: "fur_extra_3", category: .furniture, price: 1200, gridWidth: 2, gridDepth: 2, subCategory: "Royal Regalia Collection"),
+        
+        // ═══════════════════════════════════════════════════════════════
+        // STORAGE
+        // ═══════════════════════════════════════════════════════════════
         
         // BASIC STORAGE
-        Item(id: "dresser_1", name: "Simple Dresser", imageName: "fur_dress_shelve", category: .furniture, price: 50, gridWidth: 1, gridDepth: 1, subCategory: "Storage"),
-        Item(id: "fur_extra_12", name: "Vinyl Crate", imageName: "fur_extra_12", category: .furniture, price: 45, gridWidth: 1, gridDepth: 1, subCategory: "Storage"),
-        
-        // COMMON STORAGE
         Item(id: "bookshelf_1", name: "Bookshelf", imageName: "fur_big_book", category: .furniture, price: 95, gridWidth: 2, gridDepth: 2, subCategory: "Storage"),
-        Item(id: "fur_extra_1", name: "Oak Dresser", imageName: "fur_extra_1", category: .furniture, price: 100, gridWidth: 2, gridDepth: 2, subCategory: "Storage"),
-        Item(id: "fur_extra_2", name: "Pine Cabinet", imageName: "fur_extra_2", category: .furniture, price: 85, gridWidth: 1, gridDepth: 1, subCategory: "Storage"),
         
         // UNCOMMON STORAGE
-        Item(id: "fur_extra_3", name: "Modern Shelf", imageName: "fur_extra_3", category: .furniture, price: 150, gridWidth: 1, gridDepth: 1, subCategory: "Wall Mounted"),
-        Item(id: "fur_extra_19", name: "Mini Fridge", imageName: "fur_extra_19", category: .furniture, price: 180, gridWidth: 1, gridDepth: 1, subCategory: "Storage"),
+        Item(id: "dresser_1", name: "Mirrored Wardrobe", imageName: "fur_dress_shelve", category: .furniture, price: 180, gridWidth: 2, gridDepth: 2, subCategory: "Storage"),
+        Item(id: "mirror_1", name: "Oak Vanity Dresser", imageName: "fur_mirror", category: .furniture, price: 220, gridWidth: 2, gridDepth: 2, canRotate: false, subCategory: "Storage"),
         
-        // BASIC WALL DECORATIONS
-        Item(id: "photo_1", name: "Family Photo", imageName: "fur_fam", category: .furniture, price: 20, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true, subCategory: "Wall Mounted"),
-        Item(id: "clock_1", name: "Wall Clock", imageName: "fur_clock", category: .furniture, price: 35, gridWidth: 2, gridDepth: 2, canRotate: false, subCategory: "Wall Mounted"),
-        Item(id: "adventures rouge", name: "Adventure Poster", imageName: "adventures rouge", category: .furniture, price: 30, gridWidth: 1, gridDepth: 1, subCategory: "Wall Mounted"),
-        Item(id: "gamers land", name: "Gamer Poster", imageName: "gamers land", category: .furniture, price: 30, gridWidth: 1, gridDepth: 1, subCategory: "Wall Mounted"),
+        // RARE STORAGE
+        Item(id: "fur_extra_30", name: "Corner Library Bookshelf", imageName: "fur_extra_30", category: .furniture, price: 350, gridWidth: 2, gridDepth: 2, subCategory: "Storage"),
         
-        // COMMON WALL DECORATIONS
-        Item(id: "mirror_1", name: "Wall Mirror", imageName: "fur_mirror", category: .furniture, price: 75, gridWidth: 2, gridDepth: 2, canRotate: false, subCategory: "Wall Mounted"),
+        // EPIC STORAGE - Royal Regalia Collection
+        Item(id: "fur_extra_38", name: "Royal Vanity Mirror", imageName: "fur_extra_38", category: .furniture, price: 680, gridWidth: 2, gridDepth: 2, subCategory: "Royal Regalia Collection"),
         
-        // BASIC PLANTS & DECORATIONS
+        // ═══════════════════════════════════════════════════════════════
+        // CLOCKS
+        // ═══════════════════════════════════════════════════════════════
+        
+        // BASIC CLOCKS
+        Item(id: "fur_extra_12", name: "Analog Clock", imageName: "fur_extra_12", category: .furniture, price: 65, gridWidth: 1, gridDepth: 1, subCategory: "Clocks"),
+        Item(id: "fur_extra_15", name: "Classic Alarm Clock", imageName: "fur_extra_15", category: .furniture, price: 75, gridWidth: 1, gridDepth: 1, subCategory: "Clocks"),
+        
+        // UNCOMMON CLOCKS
+        Item(id: "fur_extra_25", name: "Futuristic Floating Clock", imageName: "fur_extra_25", category: .furniture, price: 280, gridWidth: 1, gridDepth: 1, subCategory: "Clocks"),
+        
+        // RARE CLOCKS
+        Item(id: "clock_1", name: "Dark Oak Grandfather Clock", imageName: "fur_clock", category: .furniture, price: 320, gridWidth: 2, gridDepth: 2, canRotate: false, subCategory: "Clocks"),
+        Item(id: "fur_extra_17", name: "Neon Cube Clock", imageName: "fur_extra_17", category: .furniture, price: 380, gridWidth: 1, gridDepth: 1, subCategory: "Clocks"),
+        
+        // EPIC CLOCKS
+        Item(id: "fur_extra_6", name: "Mystical Grandfather Clock", imageName: "fur_extra_6", category: .furniture, price: 480, gridWidth: 2, gridDepth: 2, subCategory: "Clocks"),
+        
+        // ═══════════════════════════════════════════════════════════════
+        // DECORATIONS
+        // ═══════════════════════════════════════════════════════════════
+        
+        // BASIC DECORATIONS
         Item(id: "simple plant", name: "Simple Plant", imageName: "simple plant", category: .furniture, price: 25, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_5", name: "Study Lamp", imageName: "fur_extra_5", category: .furniture, price: 40, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         Item(id: "flying baloon", name: "Flying Balloon", imageName: "flying baloon", category: .furniture, price: 55, gridWidth: 1, gridDepth: 2, subCategory: "Decorations"),
+        Item(id: "adventures rouge", name: "Adventure Scroll Stand", imageName: "adventures rouge", category: .furniture, price: 85, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         
         // COMMON DECORATIONS
-        Item(id: "fur_extra_9", name: "Potted Fern", imageName: "fur_extra_9", category: .furniture, price: 70, gridWidth: 2, gridDepth: 2, subCategory: "Decorations"),
-        Item(id: "fur_extra_10", name: "Tall Cactus", imageName: "fur_extra_10", category: .furniture, price: 80, gridWidth: 2, gridDepth: 2, subCategory: "Decorations"),
         Item(id: "console_1", name: "Retro Console", imageName: "fur_game", category: .furniture, price: 95, gridWidth: 1, gridDepth: 1, isReusable: true, subCategory: "Decorations"),
-        Item(id: "fur_extra_20", name: "Coffee Maker", imageName: "fur_extra_20", category: .furniture, price: 85, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
+        Item(id: "gamers land", name: "Game in a Bottle", imageName: "gamers land", category: .furniture, price: 150, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         
         // UNCOMMON DECORATIONS
-        Item(id: "fur_extra_4", name: "Cat Tree", imageName: "fur_extra_4", category: .furniture, price: 140, gridWidth: 2, gridDepth: 2, subCategory: "Decorations"),
         Item(id: "fur_extra_11", name: "Record Player", imageName: "fur_extra_11", category: .furniture, price: 160, gridWidth: 2, gridDepth: 2, subCategory: "Decorations"),
-        Item(id: "fur_extra_13", name: "Vintage TV", imageName: "fur_extra_13", category: .furniture, price: 180, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_15", name: "Artist Easel", imageName: "fur_extra_15", category: .furniture, price: 150, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
+        Item(id: "fur_extra_16", name: "Victory Trophy", imageName: "fur_extra_16", category: .furniture, price: 200, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         
         // RARE DECORATIONS
-        Item(id: "fur_extra_16", name: "Guitar Stand", imageName: "fur_extra_16", category: .furniture, price: 250, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_17", name: "Electric Keyboard", imageName: "fur_extra_17", category: .furniture, price: 300, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_18", name: "Studio Mic Stand", imageName: "fur_extra_18", category: .furniture, price: 280, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         Item(id: "cat with PC", name: "Cat with PC", imageName: "cat with PC", category: .furniture, price: 320, gridWidth: 2, gridDepth: 1, subCategory: "Decorations"),
         
         // EPIC DECORATIONS (Premium items - must save!)
         Item(id: "saber", name: "Light Saber", imageName: "saber", category: .furniture, price: 500, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
         Item(id: "Legend katana", name: "Legendary Katana", imageName: "Legend katana", category: .furniture, price: 600, gridWidth: 2, gridDepth: 1, subCategory: "Decorations"),
         Item(id: "secret orb", name: "Mystical Orb", imageName: "secret orb", category: .furniture, price: 750, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // GENERIC FURNITURE EXTRAS (Varied pricing based on rarity)
-        // Basic tier (20-50)
-        Item(id: "fur_extra_21", name: "Decor Item 1", imageName: "fur_extra_21", category: .furniture, price: 35, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_22", name: "Decor Item 2", imageName: "fur_extra_22", category: .furniture, price: 40, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_23", name: "Decor Item 3", imageName: "fur_extra_23", category: .furniture, price: 45, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // Common tier (60-100)
-        Item(id: "fur_extra_24", name: "Decor Item 4", imageName: "fur_extra_24", category: .furniture, price: 70, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_25", name: "Decor Item 5", imageName: "fur_extra_25", category: .furniture, price: 75, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_26", name: "Decor Item 6", imageName: "fur_extra_26", category: .furniture, price: 80, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_27", name: "Decor Item 7", imageName: "fur_extra_27", category: .furniture, price: 85, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_28", name: "Decor Item 8", imageName: "fur_extra_28", category: .furniture, price: 90, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // Uncommon tier (120-200)
-        Item(id: "fur_extra_29", name: "Decor Item 9", imageName: "fur_extra_29", category: .furniture, price: 130, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_30", name: "Decor Item 10", imageName: "fur_extra_30", category: .furniture, price: 140, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_31", name: "Decor Item 11", imageName: "fur_extra_31", category: .furniture, price: 150, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_32", name: "Decor Item 12", imageName: "fur_extra_32", category: .furniture, price: 160, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // Rare tier (250-400)
-        Item(id: "fur_extra_33", name: "Premium Decor 1", imageName: "fur_extra_33", category: .furniture, price: 280, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_34", name: "Premium Decor 2", imageName: "fur_extra_34", category: .furniture, price: 300, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_35", name: "Premium Decor 3", imageName: "fur_extra_35", category: .furniture, price: 320, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_36", name: "Premium Decor 4", imageName: "fur_extra_36", category: .furniture, price: 350, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // Epic tier (500-800)
-        Item(id: "fur_extra_37", name: "Elite Decor 1", imageName: "fur_extra_37", category: .furniture, price: 520, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_38", name: "Elite Decor 2", imageName: "fur_extra_38", category: .furniture, price: 580, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        
-        // Legendary tier (1000+)
-        Item(id: "fur_extra_39", name: "Legendary Decor 1", imageName: "fur_extra_39", category: .furniture, price: 1000, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
-        Item(id: "fur_extra_40", name: "Legendary Decor 2", imageName: "fur_extra_40", category: .furniture, price: 1200, gridWidth: 1, gridDepth: 1, subCategory: "Decorations"),
     ]
     
-    // MARK: - Decoration Items
+    // MARK: - Decoration Items (Rugs)
     static let decorationItems: [Item] = [
         // BASIC RUGS (Affordable)
         Item(id: "rug_3", name: "Simple Round Mat", imageName: "rug_3", category: .decoration, price: 30, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
@@ -244,7 +249,7 @@ struct ItemCatalog {
         Item(id: "rug_2", name: "Wool Rug", imageName: "rug2", category: .decoration, price: 50, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
         Item(id: "rug23", name: "Cozy Rug", imageName: "rug23", category: .decoration, price: 55, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
         Item(id: "rug25", name: "Comfort Rug", imageName: "rug25", category: .decoration, price: 55, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
-        Item(id: "rug 30", name: "Standard Rug", imageName: "rug 30", category: .decoration, price: 60, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
+        Item(id: "rug 30", name: "3D Forest Rug", imageName: "rug 30", category: .decoration, price: 280, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
         Item(id: "rug 31", name: "Classic Rug", imageName: "rug 31", category: .decoration, price: 60, gridWidth: 2, gridDepth: 2, canRotate: false, isReusable: true),
         
         // UNCOMMON RUGS (Nice quality)

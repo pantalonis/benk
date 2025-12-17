@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct SnowEffect: View {
-    @State private var snowflakes: [Snowflake] = []
+    @State private var snowflakes: [Snowflake]
     @State private var accumulatedSnow: [AccumulatedSnowflake] = []
     
+    private let screenWidth = UIScreen.main.bounds.width
+    private let screenHeight = UIScreen.main.bounds.height
+    
     struct Snowflake: Identifiable {
-        let id = UUID()
+        let id: Int
         var x: CGFloat
         var y: CGFloat
         let size: CGFloat
@@ -28,8 +31,31 @@ struct SnowEffect: View {
         let size: CGFloat
     }
     
+    init() {
+        // Generate snowflakes at init time with deterministic positions
+        var rng = SeededRandomNumberGenerator(seed: 12345)
+        let w = UIScreen.main.bounds.width
+        let h = UIScreen.main.bounds.height
+        
+        var flakes: [Snowflake] = []
+        for i in 0..<60 {
+            let flake = Snowflake(
+                id: i,
+                x: CGFloat.random(in: 0...w, using: &rng),
+                y: CGFloat.random(in: -50...h, using: &rng),
+                size: CGFloat.random(in: 2...6, using: &rng),
+                speed: CGFloat.random(in: 1...3, using: &rng),
+                opacity: Double.random(in: 0.4...1.0, using: &rng),
+                wobbleAmount: CGFloat.random(in: 5...15, using: &rng),
+                wobblePhase: CGFloat.random(in: 0...(.pi * 2), using: &rng)
+            )
+            flakes.append(flake)
+        }
+        _snowflakes = State(initialValue: flakes)
+    }
+    
     var body: some View {
-        TimelineView(.animation(minimumInterval: 0.03)) { timeline in
+        TimelineView(.animation(minimumInterval: 0.05)) { timeline in
             Canvas { context, size in
                 // Draw falling snowflakes
                 for flake in snowflakes {
@@ -37,7 +63,6 @@ struct SnowEffect: View {
                     let x = flake.x + wobble
                     let y = flake.y
                     
-                    // Draw snowflake with glow
                     let center = CGPoint(x: x, y: y)
                     
                     // Outer glow
@@ -67,7 +92,7 @@ struct SnowEffect: View {
                 
                 // Draw accumulated snow at bottom
                 for snow in accumulatedSnow {
-                    let y = size.height - snow.size / 2
+                    let y = screenHeight - snow.size / 2
                     context.opacity = 0.9
                     context.fill(
                         Circle().path(in: CGRect(
@@ -84,14 +109,13 @@ struct SnowEffect: View {
                 let snowPileHeight: CGFloat = min(CGFloat(accumulatedSnow.count) * 0.15, 30)
                 if snowPileHeight > 0 {
                     var path = Path()
-                    path.move(to: CGPoint(x: 0, y: size.height))
+                    path.move(to: CGPoint(x: 0, y: screenHeight))
                     
-                    // Create wavy snow pile
-                    for x in stride(from: 0, to: size.width + 20, by: 20) {
+                    for x in stride(from: 0, to: screenWidth + 20, by: 20) {
                         let waveHeight = sin(x * 0.1) * 5 + snowPileHeight
-                        path.addLine(to: CGPoint(x: x, y: size.height - waveHeight))
+                        path.addLine(to: CGPoint(x: x, y: screenHeight - waveHeight))
                     }
-                    path.addLine(to: CGPoint(x: size.width, y: size.height))
+                    path.addLine(to: CGPoint(x: screenWidth, y: screenHeight))
                     path.closeSubpath()
                     
                     context.opacity = 0.95
@@ -102,43 +126,15 @@ struct SnowEffect: View {
                 updateSnowflakes()
             }
         }
-        .onAppear {
-            initializeSnowflakes()
-        }
         .allowsHitTesting(false)
     }
     
-    private func initializeSnowflakes() {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        
-        // Create initial snowflakes
-        for _ in 0..<60 {
-            let flake = Snowflake(
-                x: CGFloat.random(in: 0...screenWidth),
-                y: CGFloat.random(in: -50...screenHeight),
-                size: CGFloat.random(in: 2...6),
-                speed: CGFloat.random(in: 1...3),
-                opacity: Double.random(in: 0.4...1.0),
-                wobbleAmount: CGFloat.random(in: 5...15),
-                wobblePhase: CGFloat.random(in: 0...(.pi * 2))
-            )
-            snowflakes.append(flake)
-        }
-    }
-    
     private func updateSnowflakes() {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        
         for i in snowflakes.indices {
-            // Move snowflake down
             snowflakes[i].y += snowflakes[i].speed
             snowflakes[i].wobblePhase += 0.1
             
-            // Check if reached bottom
             if snowflakes[i].y > screenHeight - 20 {
-                // Add to accumulated snow (with some probability)
                 if Bool.random() && accumulatedSnow.count < 200 {
                     accumulatedSnow.append(AccumulatedSnowflake(
                         x: snowflakes[i].x,
@@ -146,18 +142,18 @@ struct SnowEffect: View {
                     ))
                 }
                 
-                // Reset to top
                 snowflakes[i].y = -10
                 snowflakes[i].x = CGFloat.random(in: 0...screenWidth)
             }
         }
         
-        // Slowly melt accumulated snow
         if accumulatedSnow.count > 150 && Bool.random() {
             accumulatedSnow.removeFirst()
         }
     }
 }
+
+// Seeded RNG is in ParticleEffect.swift
 
 #Preview {
     ZStack {
@@ -166,5 +162,3 @@ struct SnowEffect: View {
     }
     .ignoresSafeArea()
 }
-
-

@@ -155,6 +155,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
+            // Themed background with effects
             ThemedBackground(theme: themeService.currentTheme)
             
             ScrollViewReader { scrollProxy in

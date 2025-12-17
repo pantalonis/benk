@@ -2,23 +2,24 @@
 //  DarkTheme.swift
 //  benk
 //
-//  Created on 2025-12-11
+//  Obsidian Glass - Premium dark liquid glass theme
 //
 
 import SwiftUI
 
 struct DarkTheme: AppTheme {
     let id = "dark"
-    let name = "Dark Glass"
+    let name = "Obsidian Glass"
     let price = 0 // Free (default)
     let isDark = true
     
     var background: LinearGradient {
         LinearGradient(
             colors: [
-                Color(hex: "#0F0F23") ?? .black,
-                Color(hex: "#1A1A2E") ?? .black,
-                Color(hex: "#16213E") ?? .black
+                Color(hex: "#0A0A0F") ?? .black,       // Deep obsidian
+                Color(hex: "#12121A") ?? .black,       // Dark slate
+                Color(hex: "#1A1A28") ?? .black,       // Subtle navy tint
+                Color(hex: "#0E0E14") ?? .black        // Back to deep
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
@@ -26,29 +27,28 @@ struct DarkTheme: AppTheme {
     }
     
     var surface: Color {
-        Color.white.opacity(0.05)
+        Color(hex: "#1E1E2E")?.opacity(0.45) ?? .white.opacity(0.05)
     }
     
     var primary: Color {
-        Color(hex: "#BB86FC") ?? .purple
+        Color(hex: "#A78BFA") ?? .purple  // Soft violet
     }
     
     var accent: Color {
-        Color(hex: "#03DAC6") ?? .cyan
+        Color(hex: "#22D3EE") ?? .cyan    // Electric cyan
     }
     
     var text: Color {
-        .white
+        Color(hex: "#F8FAFC") ?? .white   // Pure white for readability
     }
     
     var textSecondary: Color {
-        Color.white.opacity(0.6)
+        Color(hex: "#94A3B8") ?? .gray    // Soft slate for secondary
     }
     
     var glow: Color {
-        accent
+        Color(hex: "#6366F1") ?? .purple  // Indigo glow
     }
     
     var hasGlow: Bool { true }
-    var hasParticles: Bool { false }
 }
