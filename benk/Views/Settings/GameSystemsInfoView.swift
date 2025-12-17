@@ -20,7 +20,7 @@ struct GameSystemsInfoView: View {
             VStack(spacing: 0) {
                 // Page indicator dots
                 HStack(spacing: 8) {
-                    ForEach(0..<3, id: \.self) { index in
+                    ForEach(0..<4, id: \.self) { index in
                         Circle()
                             .fill(currentPage == index ? pageColor(for: index) : Color.gray.opacity(0.3))
                             .frame(width: 8, height: 8)
@@ -39,6 +39,9 @@ struct GameSystemsInfoView: View {
                     
                     StreakSystemSection()
                         .tag(2)
+                    
+                    CoinSystemSection()
+                        .tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .onChange(of: currentPage) {
@@ -60,6 +63,7 @@ struct GameSystemsInfoView: View {
         case 0: return LevelTier.color(for: 25) // Gold
         case 1: return Color(hex: "#FFD700") ?? .yellow
         case 2: return StreakMilestone.color(for: 50)
+        case 3: return .orange // Coins
         default: return .white
         }
     }
@@ -827,6 +831,255 @@ struct MilestoneRow: View {
             Spacer()
         }
         .padding(.vertical, 4)
+    }
+}
+
+// MARK: - Coin System Section
+struct CoinSystemSection: View {
+    @EnvironmentObject var themeService: ThemeService
+    @State private var coinPulse = false
+    @State private var showItems = false
+    
+    // Earning sources data
+    private let earningSources: [(icon: String, name: String, amount: String, description: String)] = [
+        ("arrow.up.circle.fill", "Level Up", "level × 10", "Earn coins each time you level up"),
+        ("trophy.fill", "XP Badge", "50", "Auto-awarded when earning XP badges"),
+        ("flame.fill", "Streak Badge", "100", "Auto-awarded for streak milestones"),
+        ("target", "Daily Challenge", "50-120", "Claim completed daily challenges"),
+        ("calendar", "Weekly Challenge", "150-350", "Claim completed weekly challenges"),
+        ("flag.fill", "Goal Quest", "50-350", "Claim completed goal quests"),
+        ("flame", "Streak Reward", "10-100", "Daily claimable streak bonus")
+    ]
+    
+    // Shop categories
+    private let shopItems: [(icon: String, name: String)] = [
+        ("bed.double.fill", "Furniture"),
+        ("pawprint.fill", "Pets"),
+        ("paintpalette.fill", "Room Themes"),
+        ("moon.stars.fill", "Window Backgrounds"),
+        ("leaf.fill", "Decorations")
+    ]
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                // Animated Coin Header
+                animatedCoinSection
+                
+                // How to Earn Card
+                howToEarnCard
+                
+                // What You Can Buy Card
+                whatToBuyCard
+                
+                // Tip Card
+                tipCard
+                
+                Spacer(minLength: 60)
+            }
+            .padding(.horizontal)
+            .padding(.top, 20)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                coinPulse = true
+            }
+            withAnimation(.spring(response: 0.6).delay(0.3)) {
+                showItems = true
+            }
+        }
+    }
+    
+    private var animatedCoinSection: some View {
+        VStack(spacing: 16) {
+            Text("Coin System")
+                .font(.title.weight(.bold))
+                .foregroundColor(themeService.currentTheme.text)
+            
+            Text("Earn coins to customize your room")
+                .font(.subheadline)
+                .foregroundColor(themeService.currentTheme.textSecondary)
+                .multilineTextAlignment(.center)
+            
+            // Animated coin
+            ZStack {
+                // Glow effect
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Color.orange.opacity(0.5),
+                                Color.yellow.opacity(0.3),
+                                Color.clear
+                            ],
+                            center: .center,
+                            startRadius: 30,
+                            endRadius: 80
+                        )
+                    )
+                    .frame(width: 160, height: 160)
+                    .scaleEffect(coinPulse ? 1.1 : 0.9)
+                    .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: coinPulse)
+                
+                // Coin circle
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(hex: "#FFD700") ?? .yellow,
+                                Color(hex: "#FFA500") ?? .orange,
+                                Color(hex: "#FFD700") ?? .yellow
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 100, height: 100)
+                    .shadow(color: Color.orange.opacity(0.5), radius: 15)
+                
+                // Inner ring
+                Circle()
+                    .stroke(Color.white.opacity(0.4), lineWidth: 4)
+                    .frame(width: 80, height: 80)
+                
+                // Dollar sign
+                Image(systemName: "dollarsign")
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundColor(.white)
+                    .shadow(color: .orange.opacity(0.8), radius: 4)
+            }
+            
+            Text("\(CurrencyManager.shared.coins) coins")
+                .font(.title2.weight(.bold))
+                .foregroundColor(.orange)
+        }
+    }
+    
+    private var howToEarnCard: some View {
+        GlassCard(padding: 16) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(.green)
+                    Text("How to Earn Coins")
+                        .font(.headline)
+                        .foregroundColor(themeService.currentTheme.text)
+                }
+                
+                VStack(spacing: 8) {
+                    ForEach(Array(earningSources.enumerated()), id: \.offset) { index, source in
+                        HStack(spacing: 10) {
+                            Image(systemName: source.icon)
+                                .font(.system(size: 16))
+                                .foregroundColor(.orange)
+                                .frame(width: 24)
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack {
+                                    Text(source.name)
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundColor(themeService.currentTheme.text)
+                                    
+                                    Spacer()
+                                    
+                                    Text(source.amount)
+                                        .font(.caption.weight(.bold))
+                                        .foregroundColor(.orange)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 2)
+                                        .background(
+                                            Capsule()
+                                                .fill(Color.orange.opacity(0.2))
+                                        )
+                                }
+                                
+                                Text(source.description)
+                                    .font(.caption)
+                                    .foregroundColor(themeService.currentTheme.textSecondary)
+                            }
+                        }
+                        .opacity(showItems ? 1 : 0)
+                        .offset(y: showItems ? 0 : 10)
+                        .animation(
+                            .spring(response: 0.4)
+                            .delay(Double(index) * 0.05),
+                            value: showItems
+                        )
+                        
+                        if index < earningSources.count - 1 {
+                            Divider()
+                                .background(themeService.currentTheme.textSecondary.opacity(0.2))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private var whatToBuyCard: some View {
+        GlassCard(padding: 16) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "cart.fill")
+                        .foregroundColor(.purple)
+                    Text("What You Can Buy")
+                        .font(.headline)
+                        .foregroundColor(themeService.currentTheme.text)
+                }
+                
+                LazyVGrid(columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ], spacing: 12) {
+                    ForEach(Array(shopItems.enumerated()), id: \.offset) { index, item in
+                        HStack(spacing: 8) {
+                            Image(systemName: item.icon)
+                                .font(.system(size: 16))
+                                .foregroundColor(.purple)
+                            
+                            Text(item.name)
+                                .font(.caption.weight(.medium))
+                                .foregroundColor(themeService.currentTheme.text)
+                            
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(themeService.currentTheme.surface.opacity(0.3))
+                        )
+                        .opacity(showItems ? 1 : 0)
+                        .animation(
+                            .spring(response: 0.4)
+                            .delay(0.3 + Double(index) * 0.05),
+                            value: showItems
+                        )
+                    }
+                }
+            }
+        }
+    }
+    
+    private var tipCard: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "hand.tap.fill")
+                .font(.system(size: 24))
+                .foregroundColor(.blue)
+            
+            Text("Tap the coin icon anywhere to view your transaction history")
+                .font(.caption)
+                .foregroundColor(themeService.currentTheme.textSecondary)
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                )
+        )
     }
 }
 

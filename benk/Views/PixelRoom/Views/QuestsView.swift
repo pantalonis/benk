@@ -123,20 +123,40 @@ struct QuestsView: View {
             
             Spacer()
             
-            // Coins display (tappable)
-            HStack(spacing: 4) {
+            // Coins display (tappable) - matches container view styling
+            HStack(spacing: 8) {
                 Image(systemName: "dollarsign.circle.fill")
-                    .foregroundColor(.yellow)
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.yellow, .orange],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                
                 Text("\(CurrencyManager.shared.coins)")
-                    .font(.headline.weight(.bold))
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(themeService.currentTheme.text)
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
             .background(
                 Capsule()
                     .fill(.ultraThinMaterial)
+                    .overlay(
+                        Capsule()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.3), .white.opacity(0.1)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 0.5
+                            )
+                    )
             )
+            .shadow(color: .black.opacity(0.08), radius: 6, x: 0, y: 3)
             .onTapGesture {
                 showTransactionLog = true
                 HapticManager.shared.selection()

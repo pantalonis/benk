@@ -175,62 +175,6 @@ struct PetInteractionSheet: View {
     
     private var actionButtons: some View {
         VStack(spacing: 12) {
-            // Feed button
-            Button {
-                feedPet()
-            } label: {
-                HStack {
-                    Text("🍖")
-                        .font(.system(size: 24))
-                    Text("Feed Pet")
-                        .font(.system(size: 16, weight: .bold))
-                    Spacer()
-                    Text("+10 💰")
-                        .font(.system(size: 14))
-                        .foregroundColor(.yellow)
-                }
-                .foregroundColor(themeManager.primaryText)
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: [Color.orange, Color.red],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(12)
-            }
-            .disabled(pet.hunger > 80)
-            .opacity(pet.hunger > 80 ? 0.5 : 1.0)
-            
-            // Play button
-            Button {
-                playWithPet()
-            } label: {
-                HStack {
-                    Text("🎾")
-                        .font(.system(size: 24))
-                    Text("Play with Pet")
-                        .font(.system(size: 16, weight: .bold))
-                    Spacer()
-                    Text("+15 💰")
-                        .font(.system(size: 14))
-                        .foregroundColor(.yellow)
-                }
-                .foregroundColor(themeManager.primaryText)
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: [Color.green, Color.blue],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(12)
-            }
-            .disabled(pet.happiness > 90 || pet.energy < 20)
-            .opacity(pet.happiness > 90 || pet.energy < 20 ? 0.5 : 1.0)
-            
             // Pat button (free interaction)
             Button {
                 petManager.tapPet(pet.id)
@@ -257,28 +201,6 @@ struct PetInteractionSheet: View {
                 )
                 .cornerRadius(12)
             }
-        }
-    }
-    
-    // MARK: - Actions
-    
-    private func feedPet() {
-        petManager.feedPet(pet.id)
-        showFeedSuccess = true
-        HapticManager.shared.success()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            showFeedSuccess = false
-        }
-    }
-    
-    private func playWithPet() {
-        petManager.playWithPet(pet.id)
-        showPlaySuccess = true
-        HapticManager.shared.success()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            showPlaySuccess = false
         }
     }
 }

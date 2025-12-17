@@ -116,9 +116,6 @@ class AchievementManager: ObservableObject {
         let day = loginStreak.currentStreak
         let reward = DailyRewardCatalog.getReward(for: day)
         
-        // Award coins
-        CurrencyManager.shared.addCoins(reward.coins, source: "Daily Login (Day \(day))")
-        
         // Award bonus item if available
         if let bonusItemId = reward.bonusItem,
            let item = ItemCatalog.allShopItems.first(where: { $0.id == bonusItemId }) {
@@ -198,9 +195,6 @@ class AchievementManager: ObservableObject {
                 progress.completedDate = Date()
                 dailyTaskProgress[task.id] = progress
                 
-                // Award coins
-                CurrencyManager.shared.addCoins(task.rewardCoins, source: "Daily Task: \(task.title)")
-                
                 dailyTaskCompletedPublisher.send(task)
                 
                 // Play haptic feedback
@@ -220,9 +214,6 @@ class AchievementManager: ObservableObject {
               let achievement = AchievementCatalog.allAchievements.first(where: { $0.id == achievementId }) else {
             return false
         }
-        
-        // Award coins
-        CurrencyManager.shared.addCoins(achievement.rewardCoins, source: "Achievement: \(achievement.title)")
         
         progress.isRewardClaimed = true
         achievementProgress[achievementId] = progress

@@ -159,52 +159,6 @@ class PetManager: ObservableObject {
         savePetStates()
     }
     
-    func feedPet(_ petId: String) {
-        guard var pet = petStates[petId] else { return }
-        
-        pet.hunger = min(100, pet.hunger + 40)
-        pet.happiness = min(100, pet.happiness + 10)
-        pet.lastFed = Date()
-        pet.currentAnimation = PetAnimation.eat.rawValue
-        pet.mood = .happy
-        
-        petStates[petId] = pet
-        
-        // Award coins for feeding
-        CurrencyManager.shared.addCoins(10, source: "Fed Pet")
-        
-        // Reset animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.resetPetAnimation(petId)
-        }
-        
-        playPetSound()
-        savePetStates()
-    }
-    
-    func playWithPet(_ petId: String) {
-        guard var pet = petStates[petId] else { return }
-        
-        pet.happiness = min(100, pet.happiness + 30)
-        pet.energy = max(0, pet.energy - 10)
-        pet.lastPlayed = Date()
-        pet.currentAnimation = PetAnimation.play.rawValue
-        pet.mood = .playful
-        
-        petStates[petId] = pet
-        
-        // Award coins for playing
-        CurrencyManager.shared.addCoins(15, source: "Played with Pet")
-        
-        // Reset animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.resetPetAnimation(petId)
-        }
-        
-        playPetSound()
-        savePetStates()
-    }
-    
     private func resetPetAnimation(_ petId: String) {
         guard var pet = petStates[petId] else { return }
         pet.currentAnimation = PetAnimation.idle.rawValue

@@ -887,6 +887,35 @@ struct BadgeEarnedPopup: View {
                     .padding(.horizontal, 40)
                     .opacity(animateIn ? 1 : 0)
                 
+                // Coins earned display
+                HStack(spacing: 6) {
+                    Image(systemName: "dollarsign.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.yellow, .orange],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    Text("+\(badge.badgeCategory == .streak ? 100 : 50) coins")
+                        .font(.headline.weight(.bold))
+                        .foregroundColor(.yellow)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            Capsule()
+                                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .shadow(color: .yellow.opacity(0.3), radius: 8)
+                .opacity(animateIn ? 1 : 0)
+                .scaleEffect(animateIn ? 1 : 0.5)
+                
                 // Tap to continue
                 Text("Tap to continue")
                     .font(.caption)
