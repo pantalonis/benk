@@ -54,13 +54,10 @@ class ThemeService: ObservableObject {
             return false
         }
         
-        // Check if enough coins using CurrencyManager
-        guard CurrencyManager.shared.coins >= theme.price else {
+        // Deduct coins using CurrencyManager.spend() to log the transaction
+        guard CurrencyManager.shared.spend(theme.price, source: "Theme: \(theme.name)") else {
             return false
         }
-        
-        // Deduct coins from CurrencyManager (the single source)
-        CurrencyManager.shared.coins -= theme.price
         
         // Add to owned themes
         profile.ownedThemeIds.append(theme.id)

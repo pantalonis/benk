@@ -283,19 +283,22 @@ struct StopwatchTimer: View {
         
         // Automatically log every break to calendar (even very short ones)
         if duration > 0 {
-            // Create and save break session immediately
+            // Create and save break session
             let breakSession = BreakSession(
                 duration: duration,
                 tag: "Break" // Default tag
             )
-            breakSession.timestamp = Date() // Set end time as current
             
-            // Adjust timestamp to when break started (duration seconds ago)
+            // Set timestamp to when break started (duration seconds ago)
             if let breakStartTime = Calendar.current.date(byAdding: .second, value: -duration, to: Date()) {
                 breakSession.timestamp = breakStartTime
             }
             
             modelContext.insert(breakSession)
+            
+            // Track break for quest progress
+            QuestStats.shared.recordBreakTaken()
+            QuestService.shared.updateAllProgress()
             
             // Save immediately so it appears on calendar
             try? modelContext.save()
@@ -305,12 +308,21 @@ struct StopwatchTimer: View {
     }
     
     private func saveBreak(tag: String, duration: Int) {
-        // Still keep this method in case we want manual break logging later
         let breakSession = BreakSession(
             duration: duration,
             tag: tag
         )
+        
+        // Calculate break start time (duration seconds ago)
+        if let breakStartTime = Calendar.current.date(byAdding: .second, value: -duration, to: Date()) {
+            breakSession.timestamp = breakStartTime
+        }
+        
         modelContext.insert(breakSession)
+        
+        // Track break for quest progress
+        QuestStats.shared.recordBreakTaken()
+        QuestService.shared.updateAllProgress()
     }
     
     private func startStopwatch() {
@@ -368,6 +380,11 @@ struct StopwatchTimer: View {
             techniqueId: technique?.id,
             isCompleted: true
         )
+        
+        // Calculate session start time (duration seconds ago)
+        if let sessionStartTime = Calendar.current.date(byAdding: .second, value: -pending.duration, to: Date()) {
+            session.timestamp = sessionStartTime
+        }
         
         modelContext.insert(session)
         

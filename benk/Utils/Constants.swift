@@ -23,7 +23,7 @@ struct Constants {
         "🎨 Use colors and diagrams to visualize concepts",
         "👥 Teach others what you've learned",
         "🚫 Eliminate distractions before starting",
-        "📱 Use the pomodoro technique for better focus",
+        "📵 Put your phone on Do Not Disturb mode",
         "✨ Celebrate small wins to stay motivated"
     ]
     
@@ -46,10 +46,6 @@ struct Constants {
     
     // Default Durations (in minutes)
     static let defaultStudyDuration = 25
-    static let defaultPomodoroFocus = 25
-    static let defaultPomodoroShortBreak = 5
-    static let defaultPomodoroLongBreak = 15
-    static let defaultPomodoroIntervals = 4
     
     // Animation Durations
     static let animationFast = 0.2

@@ -24,8 +24,6 @@ class QuestStats: ObservableObject {
     private let studyMinutesTotalKey = "quest_study_minutes_total"
     private let subjectsStudiedTodayKey = "quest_subjects_studied_today"
     private let dailyGoalsCompletedThisWeekKey = "quest_daily_goals_completed_week"
-    private let pomodorosCompletedTodayKey = "quest_pomodoros_today"
-    private let pomodorosCompletedThisWeekKey = "quest_pomodoros_week"
     private let breaksTakenTodayKey = "quest_breaks_today"
     private let breaksTakenThisWeekKey = "quest_breaks_week"
     private let lastDailyResetKey = "quest_last_daily_reset"
@@ -42,8 +40,6 @@ class QuestStats: ObservableObject {
     @Published var studyMinutesTotal: Int = 0
     @Published var subjectsStudiedToday: Set<UUID> = []
     @Published var dailyGoalsCompletedThisWeek: Int = 0
-    @Published var pomodorosCompletedToday: Int = 0
-    @Published var pomodorosCompletedThisWeek: Int = 0
     @Published var breaksTakenToday: Int = 0
     @Published var breaksTakenThisWeek: Int = 0
     @Published var dailyChallengesCompletedToday: Int = 0
@@ -63,8 +59,6 @@ class QuestStats: ObservableObject {
         studyMinutesThisWeek = UserDefaults.standard.integer(forKey: studyMinutesThisWeekKey)
         studyMinutesTotal = UserDefaults.standard.integer(forKey: studyMinutesTotalKey)
         dailyGoalsCompletedThisWeek = UserDefaults.standard.integer(forKey: dailyGoalsCompletedThisWeekKey)
-        pomodorosCompletedToday = UserDefaults.standard.integer(forKey: pomodorosCompletedTodayKey)
-        pomodorosCompletedThisWeek = UserDefaults.standard.integer(forKey: pomodorosCompletedThisWeekKey)
         breaksTakenToday = UserDefaults.standard.integer(forKey: breaksTakenTodayKey)
         breaksTakenThisWeek = UserDefaults.standard.integer(forKey: breaksTakenThisWeekKey)
         dailyChallengesCompletedToday = UserDefaults.standard.integer(forKey: dailyChallengesCompletedTodayKey)
@@ -89,8 +83,6 @@ class QuestStats: ObservableObject {
         UserDefaults.standard.set(studyMinutesThisWeek, forKey: studyMinutesThisWeekKey)
         UserDefaults.standard.set(studyMinutesTotal, forKey: studyMinutesTotalKey)
         UserDefaults.standard.set(dailyGoalsCompletedThisWeek, forKey: dailyGoalsCompletedThisWeekKey)
-        UserDefaults.standard.set(pomodorosCompletedToday, forKey: pomodorosCompletedTodayKey)
-        UserDefaults.standard.set(pomodorosCompletedThisWeek, forKey: pomodorosCompletedThisWeekKey)
         UserDefaults.standard.set(breaksTakenToday, forKey: breaksTakenTodayKey)
         UserDefaults.standard.set(breaksTakenThisWeek, forKey: breaksTakenThisWeekKey)
         UserDefaults.standard.set(dailyChallengesCompletedToday, forKey: dailyChallengesCompletedTodayKey)
@@ -140,7 +132,6 @@ class QuestStats: ObservableObject {
         tasksCompletedToday = 0
         studyMinutesToday = 0
         subjectsStudiedToday = []
-        pomodorosCompletedToday = 0
         breaksTakenToday = 0
         dailyChallengesCompletedToday = 0
         UserDefaults.standard.set(Date(), forKey: lastDailyResetKey)
@@ -151,7 +142,6 @@ class QuestStats: ObservableObject {
         tasksCompletedThisWeek = 0
         studyMinutesThisWeek = 0
         dailyGoalsCompletedThisWeek = 0
-        pomodorosCompletedThisWeek = 0
         breaksTakenThisWeek = 0
         UserDefaults.standard.set(Date(), forKey: lastWeeklyResetKey)
         saveStats()
@@ -183,13 +173,6 @@ class QuestStats: ObservableObject {
     /// Call when daily goal is completed
     func recordDailyGoalCompletion() {
         dailyGoalsCompletedThisWeek += 1
-        saveStats()
-    }
-    
-    /// Call when a pomodoro session is completed
-    func recordPomodoroCompletion() {
-        pomodorosCompletedToday += 1
-        pomodorosCompletedThisWeek += 1
         saveStats()
     }
     
@@ -248,8 +231,6 @@ class QuestStats: ObservableObject {
         studyMinutesTotal = 0
         subjectsStudiedToday = []
         dailyGoalsCompletedThisWeek = 0
-        pomodorosCompletedToday = 0
-        pomodorosCompletedThisWeek = 0
         breaksTakenToday = 0
         breaksTakenThisWeek = 0
         dailyChallengesCompletedToday = 0
@@ -260,7 +241,6 @@ class QuestStats: ObservableObject {
             tasksCompletedTodayKey, tasksCompletedThisWeekKey, tasksCompletedTotalKey,
             studyMinutesTodayKey, studyMinutesThisWeekKey, studyMinutesTotalKey,
             subjectsStudiedTodayKey, dailyGoalsCompletedThisWeekKey,
-            pomodorosCompletedTodayKey, pomodorosCompletedThisWeekKey,
             breaksTakenTodayKey, breaksTakenThisWeekKey,
             dailyChallengesCompletedTodayKey, streakRewardClaimedDateKey,
             lastDailyResetKey, lastWeeklyResetKey

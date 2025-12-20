@@ -9,17 +9,6 @@ import Foundation
 import Combine
 import UserNotifications
 
-enum TimerMode {
-    case normal
-    case pomodoro
-}
-
-enum PomodoroPhase {
-    case focus
-    case shortBreak
-    case longBreak
-}
-
 @MainActor
 class TimerService: ObservableObject {
     static let shared = TimerService()
@@ -27,9 +16,6 @@ class TimerService: ObservableObject {
     @Published var remainingTime: Int = 0
     @Published var isRunning: Bool = false
     @Published var isPaused: Bool = false
-    @Published var mode: TimerMode = .normal
-    @Published var pomodoroPhase: PomodoroPhase = .focus
-    @Published var completedIntervals: Int = 0
     @Published var elapsedTime: Int = 0  // For stopwatch mode - total cumulative time (for display)
     @Published var segmentElapsedTime: Int = 0  // Time since last resume (for logging)
     
@@ -73,30 +59,7 @@ class TimerService: ObservableObject {
     
     /// Start timer in normal mode
     func startNormal(durationMinutes: Int) {
-        mode = .normal
         totalDuration = durationMinutes * 60
-        remainingTime = totalDuration
-        startTimer()
-    }
-    
-    /// Start timer in pomodoro mode
-    func startPomodoro(config: PomodoroConfig) {
-        mode = .pomodoro
-        pomodoroPhase = .focus
-        completedIntervals = 0
-        startPomodoroPhase(config: config)
-    }
-    
-    private func startPomodoroPhase(config: PomodoroConfig) {
-        switch pomodoroPhase {
-        case .focus:
-            totalDuration = config.focusDuration
-        case .shortBreak:
-            totalDuration = config.shortBreakDuration
-        case .longBreak:
-            totalDuration = config.longBreakDuration
-        }
-        
         remainingTime = totalDuration
         startTimer()
     }
@@ -260,43 +223,6 @@ class TimerService: ObservableObject {
         HapticManager.shared.success()
         
         // Send notification
-        if mode == .pomodoro {
-            switch pomodoroPhase {
-            case .focus:
-                NotificationManager.shared.sendTimerComplete(title: "Focus Session Complete!", body: "Great work! Time for a break.")
-            case .shortBreak, .longBreak:
-                NotificationManager.shared.sendTimerComplete(title: "Break Over!", body: "Ready to focus again?")
-            }
-        } else {
-            NotificationManager.shared.sendTimerComplete(title: "Study Session Complete!", body: "You earned XP! Keep it up.")
-        }
-    }
-    
-    /// Complete pomodoro phase and transition to next
-    func completePhase(config: PomodoroConfig) {
-        guard mode == .pomodoro else { return }
-        
-        switch pomodoroPhase {
-        case .focus:
-            completedIntervals += 1
-            
-            if completedIntervals >= config.intervalsBeforeLongBreak {
-                pomodoroPhase = .longBreak
-                completedIntervals = 0
-            } else {
-                pomodoroPhase = .shortBreak
-            }
-            
-        case .shortBreak, .longBreak:
-            pomodoroPhase = .focus
-        }
-        
-        startPomodoroPhase(config: config)
-    }
-    
-    /// Skip current pomodoro phase
-    func skipPhase(config: PomodoroConfig) {
-        stop()
-        completePhase(config: config)
+        NotificationManager.shared.sendTimerComplete(title: "Study Session Complete!", body: "You earned XP! Keep it up.")
     }
 }

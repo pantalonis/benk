@@ -26,7 +26,6 @@ struct benk: App {
             Subject.self,
             Technique.self,
             BreakSession.self,
-            PomodoroConfig.self,
             UserProfile.self,
             Event.self,
             Exam.self,

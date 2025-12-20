@@ -6,7 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		24623D512EF32DC5008CE5B8 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24623D502EF32DC5008CE5B8 /* WidgetKit.framework */; };
+		24623D532EF32DC5008CE5B8 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24623D522EF32DC5008CE5B8 /* SwiftUI.framework */; };
+		24623D642EF32DC7008CE5B8 /* benkLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 24623D4E2EF32DC5008CE5B8 /* benkLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		24623D622EF32DC7008CE5B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 246AF4992EEB0F1F0029072F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 24623D4D2EF32DC5008CE5B8;
+			remoteInfo = benkLiveActivityExtension;
+		};
 		246AF4AF2EEB0F200029072F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 246AF4992EEB0F1F0029072F /* Project object */;
@@ -23,13 +36,48 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		24623D692EF32DC7008CE5B8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				24623D642EF32DC7008CE5B8 /* benkLiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		24623D4E2EF32DC5008CE5B8 /* benkLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = benkLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		24623D502EF32DC5008CE5B8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		24623D522EF32DC5008CE5B8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		246AF4A12EEB0F1F0029072F /* benk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = benk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		246AF4AE2EEB0F200029072F /* benkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = benkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		246AF4B82EEB0F210029072F /* benkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = benkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		24623D652EF32DC7008CE5B8 /* Exceptions for "benkLiveActivity" folder in "benkLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 24623D4D2EF32DC5008CE5B8 /* benkLiveActivityExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		24623D542EF32DC5008CE5B8 /* benkLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				24623D652EF32DC7008CE5B8 /* Exceptions for "benkLiveActivity" folder in "benkLiveActivityExtension" target */,
+			);
+			path = benkLiveActivity;
+			sourceTree = "<group>";
+		};
 		246AF4A32EEB0F1F0029072F /* benk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = benk;
@@ -48,6 +96,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		24623D4B2EF32DC5008CE5B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24623D532EF32DC5008CE5B8 /* SwiftUI.framework in Frameworks */,
+				24623D512EF32DC5008CE5B8 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		246AF49E2EEB0F1F0029072F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,12 +129,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24623D4F2EF32DC5008CE5B8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				24623D502EF32DC5008CE5B8 /* WidgetKit.framework */,
+				24623D522EF32DC5008CE5B8 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		246AF4982EEB0F1F0029072F = {
 			isa = PBXGroup;
 			children = (
 				246AF4A32EEB0F1F0029072F /* benk */,
 				246AF4B12EEB0F200029072F /* benkTests */,
 				246AF4BB2EEB0F210029072F /* benkUITests */,
+				24623D542EF32DC5008CE5B8 /* benkLiveActivity */,
+				24623D4F2EF32DC5008CE5B8 /* Frameworks */,
 				246AF4A22EEB0F1F0029072F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +156,7 @@
 				246AF4A12EEB0F1F0029072F /* benk.app */,
 				246AF4AE2EEB0F200029072F /* benkTests.xctest */,
 				246AF4B82EEB0F210029072F /* benkUITests.xctest */,
+				24623D4E2EF32DC5008CE5B8 /* benkLiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +164,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		24623D4D2EF32DC5008CE5B8 /* benkLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 24623D662EF32DC7008CE5B8 /* Build configuration list for PBXNativeTarget "benkLiveActivityExtension" */;
+			buildPhases = (
+				24623D4A2EF32DC5008CE5B8 /* Sources */,
+				24623D4B2EF32DC5008CE5B8 /* Frameworks */,
+				24623D4C2EF32DC5008CE5B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				24623D542EF32DC5008CE5B8 /* benkLiveActivity */,
+			);
+			name = benkLiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = benkLiveActivityExtension;
+			productReference = 24623D4E2EF32DC5008CE5B8 /* benkLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		246AF4A02EEB0F1F0029072F /* benk */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 246AF4C22EEB0F210029072F /* Build configuration list for PBXNativeTarget "benk" */;
@@ -102,10 +193,12 @@
 				246AF49D2EEB0F1F0029072F /* Sources */,
 				246AF49E2EEB0F1F0029072F /* Frameworks */,
 				246AF49F2EEB0F1F0029072F /* Resources */,
+				24623D692EF32DC7008CE5B8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				24623D632EF32DC7008CE5B8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				246AF4A32EEB0F1F0029072F /* benk */,
@@ -173,6 +266,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					24623D4D2EF32DC5008CE5B8 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					246AF4A02EEB0F1F0029072F = {
 						CreatedOnToolsVersion = 16.4;
 						LastSwiftMigration = 1640;
@@ -205,11 +301,19 @@
 				246AF4A02EEB0F1F0029072F /* benk */,
 				246AF4AD2EEB0F200029072F /* benkTests */,
 				246AF4B72EEB0F210029072F /* benkUITests */,
+				24623D4D2EF32DC5008CE5B8 /* benkLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		24623D4C2EF32DC5008CE5B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		246AF49F2EEB0F1F0029072F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +338,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		24623D4A2EF32DC5008CE5B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		246AF49D2EEB0F1F0029072F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -258,6 +369,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		24623D632EF32DC7008CE5B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 24623D4D2EF32DC5008CE5B8 /* benkLiveActivityExtension */;
+			targetProxy = 24623D622EF32DC7008CE5B8 /* PBXContainerItemProxy */;
+		};
 		246AF4B02EEB0F200029072F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 246AF4A02EEB0F1F0029072F /* benk */;
@@ -271,6 +387,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		24623D672EF32DC7008CE5B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JH7UKSSG78;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = benkLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = benkLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mailapp.StudyQuestApp.benkLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		24623D682EF32DC7008CE5B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JH7UKSSG78;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = benkLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = benkLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mailapp.StudyQuestApp.benkLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		246AF4C02EEB0F210029072F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -527,6 +697,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		24623D662EF32DC7008CE5B8 /* Build configuration list for PBXNativeTarget "benkLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				24623D672EF32DC7008CE5B8 /* Debug */,
+				24623D682EF32DC7008CE5B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		246AF49C2EEB0F1F0029072F /* Build configuration list for PBXProject "benk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

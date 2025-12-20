@@ -142,32 +142,6 @@ struct QuestCatalog {
             colorHex: "#00BCD4"
         ),
         QuestTemplate(
-            id: "daily_pomodoro_1",
-            title: "Pomodoro Starter",
-            description: "Complete a Pomodoro session",
-            instructions: "Use the Pomodoro timer mode and complete one full focus session.",
-            lore: "The Pomodoro technique was discovered in ancient tomato gardens. Its power over time is legendary.",
-            icon: "timer",
-            category: .daily,
-            trackingType: .pomodorosCompletedToday,
-            targetValue: 1,
-            coinReward: 60,
-            colorHex: "#F44336"
-        ),
-        QuestTemplate(
-            id: "daily_pomodoro_2",
-            title: "Pomodoro Pair",
-            description: "Complete 2 Pomodoro sessions",
-            instructions: "Complete 2 full Pomodoro sessions today. Stay focused!",
-            lore: "Two pomodoros form a bond stronger than one. The rhythm of focus and rest becomes music.",
-            icon: "timer",
-            category: .daily,
-            trackingType: .pomodorosCompletedToday,
-            targetValue: 2,
-            coinReward: 80,
-            colorHex: "#F44336"
-        ),
-        QuestTemplate(
             id: "daily_session",
             title: "Focus Session",
             description: "Complete a study session",
@@ -205,19 +179,6 @@ struct QuestCatalog {
             targetValue: 1,
             coinReward: 60,
             colorHex: "#3F51B5"
-        ),
-        QuestTemplate(
-            id: "daily_pomodoro_3",
-            title: "Pomodoro Triple",
-            description: "Complete 3 Pomodoro sessions",
-            instructions: "Master your focus with 3 complete Pomodoro sessions today.",
-            lore: "Three pomodoros form the sacred triangle of productivity. Ancient scholars called this the Triforce of Focus.",
-            icon: "timer",
-            category: .daily,
-            trackingType: .pomodorosCompletedToday,
-            targetValue: 3,
-            coinReward: 100,
-            colorHex: "#F44336"
         ),
         QuestTemplate(
             id: "daily_breaks_3",
@@ -484,19 +445,6 @@ struct QuestCatalog {
             colorHex: "#E91E63"
         ),
         QuestTemplate(
-            id: "weekly_pomodoro_10",
-            title: "Pomodoro Pack",
-            description: "Complete 10 Pomodoro sessions",
-            instructions: "Use the Pomodoro timer for 10 complete sessions this week.",
-            lore: "Ten pomodoros ripen into a harvest of knowledge. The Tomato Gardens overflow!",
-            icon: "timer",
-            category: .weekly,
-            trackingType: .pomodorosCompletedThisWeek,
-            targetValue: 10,
-            coinReward: 200,
-            colorHex: "#F44336"
-        ),
-        QuestTemplate(
             id: "weekly_breaks_10",
             title: "Well Rested",
             description: "Take 10 breaks",
@@ -560,19 +508,6 @@ struct QuestCatalog {
             targetValue: 3,
             coinReward: 350,
             colorHex: "#FFD700"
-        ),
-        QuestTemplate(
-            id: "weekly_pomodoro_20",
-            title: "Pomodoro Master",
-            description: "Complete 20 Pomodoro sessions",
-            instructions: "Become a true Pomodoro master with 20 sessions this week!",
-            lore: "Twenty pomodoros crown you as a Master. The Tomato Temple awaits your arrival.",
-            icon: "timer",
-            category: .weekly,
-            trackingType: .pomodorosCompletedThisWeek,
-            targetValue: 20,
-            coinReward: 300,
-            colorHex: "#F44336"
         ),
     ]
     

@@ -101,4 +101,16 @@ class CurrencyManager: ObservableObject {
         transactions = []
         saveTransactions()
     }
+    
+    // MARK: - Analytics
+    
+    /// Total coins earned (calculated from transaction history)
+    var totalEarned: Int {
+        transactions.filter { $0.isCredit }.reduce(0) { $0 + $1.amount }
+    }
+    
+    /// Total coins spent (calculated from transaction history)
+    var totalSpent: Int {
+        transactions.filter { !$0.isCredit }.reduce(0) { $0 + $1.amount }
+    }
 }

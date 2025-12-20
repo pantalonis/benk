@@ -26,7 +26,6 @@ enum QuestTrackingType: String, Codable {
     case dailyGoalCompleted
     case subjectsStudiedToday
     case breaksTakenToday
-    case pomodorosCompletedToday
     case studySessionCompleted
     case earlyMorningStudy
     case eveningStudy
@@ -36,7 +35,6 @@ enum QuestTrackingType: String, Codable {
     case tasksCompletedThisWeek
     case studyMinutesThisWeek
     case dailyGoalsCompletedThisWeek
-    case pomodorosCompletedThisWeek
     case breaksTakenThisWeek
     case streakDays
     case dailyChallengesCompletedThisWeek
@@ -276,6 +274,7 @@ class QuestService: ObservableObject {
     
     private func getProgressValue(for trackingType: QuestTrackingType, stats: QuestStats) -> Int {
         switch trackingType {
+        // Daily tracking
         case .tasksCompletedToday:
             return stats.tasksCompletedToday
         case .studyMinutesToday:
@@ -284,23 +283,71 @@ class QuestService: ObservableObject {
             return stats.subjectsStudiedTodayCount
         case .breaksTakenToday:
             return stats.breaksTakenToday
-        case .pomodorosCompletedToday:
-            return stats.pomodorosCompletedToday
+        case .dailyGoalCompleted:
+            // TODO: Check if daily goal is completed today (requires UserProfile access)
+            return 0
+        case .studySessionCompleted:
+            // A study session counts as completed if there's any study time today
+            return stats.studyMinutesToday > 0 ? 1 : 0
+        case .earlyMorningStudy:
+            // TODO: Track early morning study sessions
+            return 0
+        case .eveningStudy:
+            // TODO: Track evening study sessions
+            return 0
+        case .exceedDailyGoal:
+            // TODO: Calculate how much user exceeded daily goal
+            return 0
+            
+        // Weekly tracking
         case .tasksCompletedThisWeek:
             return stats.tasksCompletedThisWeek
         case .studyMinutesThisWeek:
             return stats.studyMinutesThisWeek
         case .dailyGoalsCompletedThisWeek:
             return stats.dailyGoalsCompletedThisWeek
-        case .pomodorosCompletedThisWeek:
-            return stats.pomodorosCompletedThisWeek
         case .breaksTakenThisWeek:
             return stats.breaksTakenThisWeek
+        case .streakDays:
+            // Streak days should come from UserProfile - return 0 for now as it's tracked elsewhere
+            return 0
+        case .dailyChallengesCompletedThisWeek:
+            return stats.dailyChallengesCompletedToday // This tracks daily challenges completed
+        case .weekendStudy:
+            // Check if today is weekend and there's study time
+            let weekday = Calendar.current.component(.weekday, from: Date())
+            let isWeekend = weekday == 1 || weekday == 7 // Sunday = 1, Saturday = 7
+            return (isWeekend && stats.studyMinutesToday > 0) ? 1 : 0
+        case .tasksInOneDay:
+            return stats.tasksCompletedToday
+        case .studyMinutesInOneDay:
+            return stats.studyMinutesToday
+            
+        // Total/Goal tracking (used in Goals, but some may appear in daily/weekly)
         case .tasksCompletedTotal:
             return stats.tasksCompletedTotal
         case .studyMinutesTotal:
             return stats.studyMinutesTotal
-        default:
+        case .coinsEarned:
+            return CurrencyManager.shared.totalEarned
+        case .petsOwned:
+            return InventoryManager.shared.ownedItems.filter { $0.category == .pet }.count
+        case .plantsOwned:
+            return InventoryManager.shared.ownedItems.filter { 
+                $0.category == .furniture && $0.name.lowercased().contains("plant") 
+            }.count
+        case .furnitureOwned:
+            return InventoryManager.shared.ownedItems.filter { $0.category == .furniture }.count
+        case .itemsOwned:
+            return InventoryManager.shared.ownedItems.count
+        case .itemsPlaced:
+            return RoomManager.shared.placedObjects.count
+        case .decorationsOwned:
+            return InventoryManager.shared.ownedItems.filter { $0.category == .decoration }.count
+        case .roomThemesUsed:
+            return AchievementManager.shared.uniqueRoomThemesUsed.count
+        case .currentStreak:
+            // This needs to come from UserProfile
             return 0
         }
     }
@@ -329,7 +376,7 @@ class QuestService: ObservableObject {
         case .decorationsOwned:
             return inventory.ownedItems.filter { $0.category == .decoration }.count
         case .coinsEarned:
-            return achievement.totalCoinsEarned
+            return CurrencyManager.shared.totalEarned
         case .tasksCompletedTotal:
             return stats.tasksCompletedTotal
         case .studyMinutesTotal:
